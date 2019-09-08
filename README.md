@@ -1,4 +1,4 @@
-# RNBaseProject_V2
+# RNBaseProjectV3
 
 A small base project on React Native with the newest technologies and pure code.
 
@@ -25,5 +25,8 @@ A small base project on React Native with the newest technologies and pure code.
 | Image | [react-native-fast-image](https://github.com/DylanVann/react-native-fast-image) |
 | Debug | [Reactotron](https://github.com/infinitered/reactotron) |
 
+## debug build on Android
+mkdir -p android/app/src/main/assets && rm -rf android/app/build && react-native bundle --platform android --dev false --entry-file index.android.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res && cd android && ./gradlew assembleDebug
 
-
+## release build on Android
+mkdir -p android/app/src/main/assets && rm -rf android/app/build && react-native bundle --platform android --dev false --entry-file index.android.js --bundle-output android/app/src/main/assets/index.android.bundle && cd android && ./gradlew assembleRelease
