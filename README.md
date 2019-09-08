@@ -4,10 +4,9 @@ A small base project on React Native with the newest technologies and pure code.
 
 ## How it works
 
-| Platform  | How it works |
-| :--- | :---: |
-| **iOS** | ![](ios_example.gif){:height="10%" width="10%"} |
-| **Android** | ![](android_example.gif){:height="10%" width="10%"} |
+| How it works  | iOS | Android |
+| :--- | :---: | :---: |
+| **iOS** | <img src="ios_example.gif" width="240" /> | | **Android** | <img src="android_example.gif" width="240" /> |
 
 ## Technology stack
 
