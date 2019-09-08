@@ -6,8 +6,8 @@ A small base project on React Native with the newest technologies and pure code.
 
 | Platform  | How it works |
 | :--- | :---: |
-| **iOS** | ![](ios_example.gif =250x250) |
-| **Android** | ![](android_example.gif) |
+| **iOS** | ![](ios_example.gif){:height="10%" width="10%"} |
+| **Android** | ![](android_example.gif){:height="10%" width="10%"} |
 
 ## Technology stack
 
