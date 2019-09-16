@@ -1,0 +1,83 @@
+{
+  "project_info": {
+    "project_number": "333985058324",
+    "firebase_url": "https://riseapps-6fc78.firebaseio.com",
+    "project_id": "riseapps-6fc78",
+    "storage_bucket": "riseapps-6fc78.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:333985058324:android:a4a55a4c7dd3b434266101",
+        "android_client_info": {
+          "package_name": "com.riseapps.baseproject"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "333985058324-jkh1popl29qjjtm2vncfrgb0itgn2c6s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBq14v5pY57SCLPilegTbXTKUbuDjj2tEM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "333985058324-jkh1popl29qjjtm2vncfrgb0itgn2c6s.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "333985058324-5no6f04hsv9h71pk1noic4fk45h9rps5.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.riseapps.baseproject"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:333985058324:android:84aed7cd903db19e266101",
+        "android_client_info": {
+          "package_name": "com.rnbaseprojectv3"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "333985058324-jkh1popl29qjjtm2vncfrgb0itgn2c6s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBq14v5pY57SCLPilegTbXTKUbuDjj2tEM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "333985058324-jkh1popl29qjjtm2vncfrgb0itgn2c6s.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "333985058324-5no6f04hsv9h71pk1noic4fk45h9rps5.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.riseapps.baseproject"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -14,6 +14,7 @@
 		2253871108344D6799440659 /* quicksand_regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 1453E6A332E5428FA8FBF8DD /* quicksand_regular.otf */; };
 		B9EB9595B9AE44C39B11B1F8 /* quicksand_bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = FBCDBEDF86C64D9D813A91C9 /* quicksand_bold.otf */; };
 		CFFB32965437B4859CEE8F5E /* libPods-RNBaseProjectV3.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B248F9940393F9459A5AB5E9 /* libPods-RNBaseProjectV3.a */; };
+		F2471BE7232F98990073DAB1 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F2471BE6232F98990073DAB1 /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,6 +34,7 @@
 		C2D11DE0639D3BD9741C4EE0 /* Pods-RNBaseProjectV3.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RNBaseProjectV3.release.xcconfig"; path = "Target Support Files/Pods-RNBaseProjectV3/Pods-RNBaseProjectV3.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
+		F2471BE6232F98990073DAB1 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Desktop/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		FBCDBEDF86C64D9D813A91C9 /* quicksand_bold.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = quicksand_bold.otf; path = ../src/assets/fonts/quicksand_bold.otf; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -117,6 +119,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				F2471BE6232F98990073DAB1 /* GoogleService-Info.plist */,
 				13B07FAE1A68108700A75B9A /* RNBaseProjectV3 */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* RNBaseProjectV3Tests */,
@@ -151,6 +154,7 @@
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
+				783E7A0E87FB3B09DB94D8FE /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -171,7 +175,8 @@
 				ORGANIZATIONNAME = Facebook;
 				TargetAttributes = {
 					13B07F861A680F5B00A75B9A = {
-						ProvisioningStyle = Manual;
+						DevelopmentTeam = 2F743XCK96;
+						ProvisioningStyle = Automatic;
 					};
 				};
 			};
@@ -201,6 +206,7 @@
 			files = (
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
+				F2471BE7232F98990073DAB1 /* GoogleService-Info.plist in Resources */,
 				B9EB9595B9AE44C39B11B1F8 /* quicksand_bold.otf in Resources */,
 				2253871108344D6799440659 /* quicksand_regular.otf in Resources */,
 			);
@@ -222,6 +228,24 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh";
+		};
+		783E7A0E87FB3B09DB94D8FE /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-RNBaseProjectV3/Pods-RNBaseProjectV3-resources.sh",
+				"${PODS_CONFIGURATION_BUILD_DIR}/gRPC-C++/gRPCCertificates-Cpp.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/gRPCCertificates-Cpp.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-RNBaseProjectV3/Pods-RNBaseProjectV3-resources.sh\"\n";
+			showEnvVarsInLog = 0;
 		};
 		BEB0E00478B05CBD092C5C98 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -296,10 +320,11 @@
 			baseConfigurationReference = A073CE3A0811CCF32C8D8D6E /* Pods-RNBaseProjectV3.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 2F743XCK96;
 				INFOPLIST_FILE = RNBaseProjectV3/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -320,9 +345,10 @@
 			baseConfigurationReference = C2D11DE0639D3BD9741C4EE0 /* Pods-RNBaseProjectV3.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 2F743XCK96;
 				INFOPLIST_FILE = RNBaseProjectV3/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
