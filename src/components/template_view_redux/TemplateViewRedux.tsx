@@ -1,21 +1,17 @@
-import React, {ReactElement} from 'react'
-import {connect} from 'react-redux'
-import {AppState, View} from 'react-native'
+import React, { ReactElement } from 'react'
+import { connect } from 'react-redux'
+import { AppState, View } from 'react-native'
 import styles from './styles'
 
 type Props = OwnProps & PropsFromState & PropsFromDispatch
 
-interface OwnProps {
-}
+interface OwnProps {}
 
-interface PropsFromState {
-}
+interface PropsFromState {}
 
-interface PropsFromDispatch {
-}
+interface PropsFromDispatch {}
 
-interface State {
-}
+interface State {}
 
 const initialState: State = {}
 const defaultProps: Props = {}
@@ -25,9 +21,7 @@ class TemplateViewRedux extends React.Component<Props, State> {
     static defaultProps: Props = defaultProps
 
     render(): ReactElement<any> {
-        return (
-            <View style={styles.container}/>
-        )
+        return <View style={styles.container} />
     }
 }
 
@@ -38,4 +32,7 @@ const mapStateToProps = (appState: AppState): PropsFromState => {
 
 const mapDispatchToProps: PropsFromDispatch = {}
 
-export default connect(mapStateToProps, mapDispatchToProps)(TemplateViewRedux)
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps,
+)(TemplateViewRedux)

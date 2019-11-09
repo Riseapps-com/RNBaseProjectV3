@@ -64,7 +64,7 @@ export const defaultCountry: Country = {
     topLevelDomain: [],
     alpha2Code: '',
     alpha3Code: '',
-    callingCodes: '',
+    callingCodes: [],
     capital: '',
     altSpellings: [],
     region: '',
@@ -90,9 +90,9 @@ export const defaultCountry: Country = {
         pt: '',
         nl: '',
         hr: '',
-        fa: ''
+        fa: '',
     },
     flag: '',
     regionalBlocs: [],
-    cioc: ''
+    cioc: '',
 }

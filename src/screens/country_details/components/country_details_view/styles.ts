@@ -1,4 +1,4 @@
-import {StyleSheet, TextStyle, ViewStyle} from 'react-native'
+import { StyleSheet, TextStyle, ViewStyle } from 'react-native'
 import getPlatformFont from '../../../../assets/fonts/getFontByPlatform'
 
 export interface Style {
@@ -17,7 +17,7 @@ export interface Style {
 const styles = StyleSheet.create<Style>({
     container: {
         flex: 1,
-        padding: 8
+        padding: 8,
     },
     countryNameContainer: {
         width: '100%',
@@ -26,11 +26,11 @@ const styles = StyleSheet.create<Style>({
     countryCapitalContainer: {
         width: '100%',
         justifyContent: 'center',
-        marginTop: 4
+        marginTop: 4,
     },
     countrySubinfoContainer: {
         justifyContent: 'center',
-        flex: 1
+        flex: 1,
     },
     countryTitleContainer: {
         width: '100%',
@@ -39,28 +39,28 @@ const styles = StyleSheet.create<Style>({
     countrySubtitleContainer: {
         width: '100%',
         justifyContent: 'center',
-        marginTop: 4
+        marginTop: 4,
     },
     countryNameText: {
         ...getPlatformFont('quicksand_bold'),
         color: 'black',
-        fontSize: 32
+        fontSize: 32,
     },
     countryCapitalText: {
         ...getPlatformFont('quicksand_bold'),
         color: 'grey',
-        fontSize: 26
+        fontSize: 26,
     },
     titleText: {
         ...getPlatformFont('quicksand_bold'),
         color: 'black',
-        fontSize: 18
+        fontSize: 18,
     },
     subtitleText: {
         ...getPlatformFont('quicksand_regular'),
         color: 'grey',
-        fontSize: 18
-    }
+        fontSize: 18,
+    },
 })
 
 export default styles

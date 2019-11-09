@@ -1,5 +1,9 @@
-const PRIMARY_COLOR: string = '#0036A7'
-
-export {
-    PRIMARY_COLOR
+interface Colors {
+    primary: string
 }
+
+const colors: Colors = {
+    primary: '#0036A7'
+}
+
+export { colors }

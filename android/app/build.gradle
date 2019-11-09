@@ -76,8 +76,8 @@ import com.android.build.OutputFile
  */
 
 project.ext.react = [
-    entryFile: "index.js",
-    enableHermes: true,  // clean and rebuild if changing
+        entryFile   : "index.js",
+        enableHermes: true,  // clean and rebuild if changing
 ]
 
 apply from: "../../node_modules/react-native/react.gradle"
@@ -133,6 +133,8 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
+        missingDimensionStrategy "RNN.reactNativeVersion", "reactNative60"
+        multiDexEnabled true
     }
     splits {
         abi {
@@ -143,19 +145,19 @@ android {
         }
     }
     signingConfigs {
-            release {
-                storeFile file(RISEAPPS_STORE_FILE)
-                storePassword RISEAPPS_STORE_PASSWORD
-                keyAlias RISEAPPS_KEY_ALIAS
-                keyPassword RISEAPPS_KEY_PASSWORD
-            }
+        release {
+            storeFile file(RISEAPPS_STORE_FILE)
+            storePassword RISEAPPS_STORE_PASSWORD
+            keyAlias RISEAPPS_KEY_ALIAS
+            keyPassword RISEAPPS_KEY_PASSWORD
         }
+    }
     buildTypes {
-            release {
-                signingConfig signingConfigs.release
-                minifyEnabled enableProguardInReleaseBuilds
-                proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
-            }
+        release {
+            signingConfig signingConfigs.release
+            minifyEnabled enableProguardInReleaseBuilds
+            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+        }
     }
     // applicationVariants are e.g. debug, release
     applicationVariants.all { variant ->
@@ -171,27 +173,20 @@ android {
 
         }
     }
-
-    packagingOptions {
-        pickFirst '**/armeabi-v7a/libc++_shared.so'
-        pickFirst '**/x86/libc++_shared.so'
-        pickFirst '**/arm64-v8a/libc++_shared.so'
-        pickFirst '**/x86_64/libc++_shared.so'
-        pickFirst '**/x86/libjsc.so'
-        pickFirst '**/armeabi-v7a/libjsc.so'
-    }
 }
 
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "com.facebook.react:react-native:+"  // From node_modules
+    implementation "androidx.multidex:multidex:${rootProject.ext.multidexVersion}"
+    implementation project(':react-native-navigation')
 
     if (enableHermes) {
-      def hermesPath = "../../node_modules/hermesvm/android/";
-      debugImplementation files(hermesPath + "hermes-debug.aar")
-      releaseImplementation files(hermesPath + "hermes-release.aar")
+        def hermesPath = "../../node_modules/hermes-engine/android/"
+        debugImplementation files(hermesPath + "hermes-debug.aar")
+        releaseImplementation files(hermesPath + "hermes-release.aar")
     } else {
-      implementation jscFlavor
+        implementation jscFlavor
     }
 }
 

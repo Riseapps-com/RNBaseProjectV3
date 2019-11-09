@@ -1,4 +1,4 @@
-import {StyleSheet, ViewStyle} from 'react-native'
+import { StyleSheet, ViewStyle } from 'react-native'
 
 export interface Style {
     container: ViewStyle
@@ -6,8 +6,8 @@ export interface Style {
 
 const styles = StyleSheet.create<Style>({
     container: {
-        flex: 1
-    }
+        flex: 1,
+    },
 })
 
 export default styles

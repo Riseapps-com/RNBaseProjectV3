@@ -1,21 +1,16 @@
-import axios from 'axios'
-import {Country} from './data/CountryInterface'
-import {Region} from './data/RegionType'
+import { Country } from './data/CountryInterface'
+import { Region } from './data/RegionType'
 import updateIds from '../utils/updateIds'
+import { get } from './axiosBase'
 
-const BASE_URL = 'https://restcountries.eu/rest/v2'
+const ALL: string = 'all'
+const BY_REGION: string = 'region'
+const BY_CODE: string = 'alpha'
 
-const getAllCountries = (): Promise<Country[]> =>
-    axios.get(`${BASE_URL}/all`)
-        .then(response => updateIds<Country>(response.data))
-const getCountriesByRegion = (region: Region): Promise<Country[]> =>
-    axios.get(`${BASE_URL}/region/${region}`)
-        .then(response => updateIds<Country>(response.data))
-const getCountryByCode = (code: string): Promise<Country> => axios.get(`${BASE_URL}/alpha/${code}`)
-    .then(response => response.data)
+const getAllCountries = () => get<Country[]>(ALL).then(data => updateIds<Country>(data))
+const getCountriesByRegion = (region: Region) =>
+    get<Country[]>(`${BY_REGION}/${region}`).then(data => updateIds<Country>(data))
+const getCountryByCode = (code: string) =>
+    get<Country[]>(`${BY_CODE}/${code}`).then(data => updateIds<Country>(data))
 
-export {
-    getAllCountries,
-    getCountriesByRegion,
-    getCountryByCode
-}
+export { getAllCountries, getCountriesByRegion, getCountryByCode }

@@ -19,7 +19,7 @@ const imgs: Imgs = {
     europe: require('./europe/europe.png'),
     oceania: require('./oceania/oceania.png'),
     back_arrow: require('./back_arrow/back_arrow.png'),
-    logo_white: require('./logo_white/logo_white.png')
+    logo_white: require('./logo_white/logo_white.png'),
 }
 
 export default imgs

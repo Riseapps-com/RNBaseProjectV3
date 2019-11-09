@@ -28,4 +28,4 @@ A small base project on React Native with the newest technologies and pure code.
 mkdir -p android/app/src/main/assets && rm -rf android/app/build && react-native bundle --platform android --dev false --entry-file index.android.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res && cd android && ./gradlew assembleDebug
 
 ## release build on Android
-mkdir -p android/app/src/main/assets && rm -rf android/app/build && react-native bundle --platform android --dev false --entry-file index.android.js --bundle-output android/app/src/main/assets/index.android.bundle && cd android && ./gradlew assembleRelease
+rm -rf android/app/build && cd android && ./gradlew assembleRelease

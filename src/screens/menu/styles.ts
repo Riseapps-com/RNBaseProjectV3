@@ -1,5 +1,5 @@
-import {StyleSheet, ViewStyle} from 'react-native'
-import {PRIMARY_COLOR} from '../../assets/colors'
+import { StyleSheet, ViewStyle } from 'react-native'
+import { colors } from '../../assets/colors'
 
 export interface Style {
     container: ViewStyle
@@ -8,8 +8,8 @@ export interface Style {
 const styles = StyleSheet.create<Style>({
     container: {
         flex: 1,
-        backgroundColor: PRIMARY_COLOR
-    }
+        backgroundColor: colors.primary,
+    },
 })
 
 export default styles

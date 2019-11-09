@@ -1,8 +1,8 @@
-import {Country} from '../../network/data/CountryInterface'
-import {Action} from '../ActionInterface'
-import {GET_ALL_COUNTRIES} from './actions'
-import {CLEAR, FAILED, SUCCESS} from '../../appConstants'
-import {NetworkDataState} from '../NetworkDataState'
+import { Country } from '../../network/data/CountryInterface'
+import { Action } from '../ActionInterface'
+import { GET_ALL_COUNTRIES } from './actions'
+import { CLEAR, FAILED, SUCCESS } from '../../appConstants'
+import { NetworkDataState } from '../NetworkDataState'
 
 export interface AllCountriesState extends NetworkDataState {
     readonly data: Country[]
@@ -11,31 +11,34 @@ export interface AllCountriesState extends NetworkDataState {
 const initState: AllCountriesState = {
     data: [],
     loading: false,
-    error: 'Data is empty'
+    error: 'Data is empty',
 }
 
-const allCountries = (state: AllCountriesState = initState, action: Action): AllCountriesState => {
+const allCountries = (
+    state: AllCountriesState = initState,
+    { type, response }: Action,
+): AllCountriesState => {
     let newState: AllCountriesState = null
-    switch (action.type) {
+    switch (type) {
         case GET_ALL_COUNTRIES:
             newState = {
                 ...state,
-                loading: true
+                loading: true,
             }
             break
         case `${GET_ALL_COUNTRIES}${SUCCESS}`:
             newState = {
                 ...state,
                 loading: false,
-                data: action.response,
-                error: ''
+                data: response,
+                error: '',
             }
             break
         case `${GET_ALL_COUNTRIES}${FAILED}`:
             newState = {
                 ...state,
                 loading: false,
-                error: action.response
+                error: response,
             }
             break
         case `${GET_ALL_COUNTRIES}${CLEAR}`:

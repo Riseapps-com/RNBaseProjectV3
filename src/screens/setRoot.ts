@@ -1,0 +1,51 @@
+import { registerScreens, SPLASH_SCREEN } from './screens'
+import { Navigation } from 'react-native-navigation'
+import { colors } from '../assets/colors'
+import getPlatformFont from '../assets/fonts/getFontByPlatform'
+import imgs from '../assets/imgs/imgs'
+
+const setRoot = (): void => {
+    registerScreens()
+    Navigation.setDefaultOptions({
+        layout: {
+            backgroundColor: 'white',
+            componentBackgroundColor: 'white',
+            orientation: ['portrait'],
+        },
+        topBar: {
+            visible: true,
+            drawBehind: false,
+            animate: false,
+            title: {
+                fontSize: 16,
+                color: 'white',
+                fontFamily: getPlatformFont('quicksand_bold').fontFamily,
+            },
+            backButton: {
+                visible: true,
+                icon: imgs.back_arrow,
+            },
+            background: {
+                color: colors.primary,
+            },
+        },
+        statusBar: {
+            style: 'light',
+        },
+    })
+    Navigation.setRoot({
+        root: {
+            stack: {
+                children: [
+                    {
+                        component: {
+                            name: SPLASH_SCREEN,
+                        },
+                    },
+                ],
+            },
+        },
+    }).catch()
+}
+
+export { setRoot }

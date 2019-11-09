@@ -1,25 +1,28 @@
-import React, {ReactElement} from 'react'
-import {connect} from 'react-redux'
-import {Country} from '../../network/data/CountryInterface'
-import {Region} from '../../network/data/RegionType'
-import {AppState} from '../../store/rootReducer'
-import {clearCountriesByRegion, getCountriesByRegion} from '../../store/countries_by_region/actions'
-import {clearAllCountries, getAllCountries} from '../../store/all_countries/actions'
-import {SafeAreaView, Text, View} from 'react-native'
+import React, { ReactElement } from 'react'
+import { connect } from 'react-redux'
+import { Country } from '../../network/data/CountryInterface'
+import { Region } from '../../network/data/RegionType'
+import { AppState } from '../../store/rootReducer'
+import {
+    clearCountriesByRegion,
+    getCountriesByRegion,
+} from '../../store/countries_by_region/actions'
+import { clearAllCountries, getAllCountries } from '../../store/all_countries/actions'
+import { Text, View } from 'react-native'
 import styles from './styles'
 import CountriesList from './countries_list/CountriesList'
 // @ts-ignore
 import Spinner from 'react-native-loading-spinner-overlay'
-import {COUNTRY_DETAILS_SCREEN} from '../routeConfigMap'
-import {push} from '../../NavigationService'
 import i18n from 'i18n-js'
-import {PRIMARY_COLOR} from '../../assets/colors'
-import {NavigationScreenOptions, NavigationScreenProp} from 'react-navigation'
+import { Navigation, Options } from 'react-native-navigation'
+import { COUNTRY_DETAILS_SCREEN } from '../screens'
+import { colors } from '../../assets/colors'
+import { waitForRenderOptions } from '../../utils/navigationUtils'
 
 type Props = OwnProps & PropsFromState & PropsFromDispatch
 
 export interface OwnProps {
-    navigation?: NavigationScreenProp<State, Props>
+    componentId?: string
     region?: Region
     countriesType: CountriesType
 }
@@ -41,34 +44,33 @@ interface PropsFromDispatch {
 
 export type CountriesType = 'all_countries' | 'countries_by_region'
 
-interface State {
-}
+interface State {}
 
 const initialState: State = {}
 const defaultProps: Props = {
     countriesType: 'all_countries',
     allCountries: [],
     countriesByRegion: [],
-    loading: false
+    loading: false,
 }
 
 class CountriesScreen extends React.Component<Props, State> {
     readonly state: State = initialState
     static defaultProps: Props = defaultProps
 
-    static navigationOptions = (props: Props): NavigationScreenOptions => {
-        const {navigation} = props
-        const countriesType: CountriesType = navigation.getParam('countriesType', null)
-        const region: Region = navigation.getParam('region', null)
+    static options({ countriesType, region }: Props): Options {
         return {
-            title: CountriesScreen.getTitle(countriesType, region)
+            ...waitForRenderOptions(),
+            topBar: {
+                title: {
+                    text: CountriesScreen.getTitle(countriesType, region),
+                },
+            },
         }
     }
 
     componentDidMount() {
-        const {navigation} = this.props
-        const countriesType: CountriesType = navigation.getParam('countriesType', null)
-        const region: Region = navigation.getParam('region', null)
+        const { countriesType, region } = this.props
 
         switch (countriesType) {
             case 'all_countries':
@@ -81,41 +83,31 @@ class CountriesScreen extends React.Component<Props, State> {
     }
 
     componentWillUnmount() {
-        const {
-            clearAllCountries,
-            clearCountriesByRegion
-        } = this.props
+        const { clearAllCountries, clearCountriesByRegion } = this.props
         clearAllCountries()
         clearCountriesByRegion()
     }
 
     render(): ReactElement<any> {
-        const {
-            loading
-        } = this.props
+        const { loading } = this.props
 
         return (
-            <SafeAreaView style={styles.container}>
-                {
-                    this.isError()
-                        ? this.getErrorView()
-                        : <CountriesList countries={this.getCountries()}
-                                         onCountryPress={this.handleCountryPress}/>
-                }
-                <Spinner visible={loading}
-                         color={PRIMARY_COLOR}/>
-            </SafeAreaView>
+            <View style={styles.container}>
+                {this.isError() ? (
+                    this.getErrorView()
+                ) : (
+                    <CountriesList
+                        countries={this.getCountries()}
+                        onCountryPress={this.handleCountryPress}
+                    />
+                )}
+                <Spinner visible={loading} color={colors.primary} />
+            </View>
         )
     }
 
     getErrorView(): ReactElement<any> {
-        const {
-            allCountriesError,
-            countriesByRegionError,
-            navigation
-        } = this.props
-        const countriesType: CountriesType = navigation.getParam('countriesType', null)
-
+        const { allCountriesError, countriesByRegionError, countriesType } = this.props
         let error: string = ''
 
         switch (countriesType) {
@@ -129,20 +121,13 @@ class CountriesScreen extends React.Component<Props, State> {
 
         return (
             <View style={styles.errorContainer}>
-                <Text style={styles.errorText}>
-                    {error}
-                </Text>
+                <Text style={styles.errorText}>{error}</Text>
             </View>
         )
     }
 
     isError(): boolean {
-        const {
-            allCountriesError,
-            countriesByRegionError,
-            navigation
-        } = this.props
-        const countriesType: CountriesType = navigation.getParam('countriesType', null)
+        const { allCountriesError, countriesByRegionError, countriesType } = this.props
         let isError: boolean = false
 
         switch (countriesType) {
@@ -189,12 +174,7 @@ class CountriesScreen extends React.Component<Props, State> {
     }
 
     getCountries = (): Country[] => {
-        const {
-            navigation,
-            allCountries,
-            countriesByRegion
-        } = this.props
-        const countriesType: CountriesType = navigation.getParam('countriesType', null)
+        const { countriesType, allCountries, countriesByRegion } = this.props
         let countries: Country[] = allCountries
 
         switch (countriesType) {
@@ -209,37 +189,40 @@ class CountriesScreen extends React.Component<Props, State> {
         return countries
     }
 
-    handleCountryPress = (country: Country): boolean => push(COUNTRY_DETAILS_SCREEN, {
-        country
-    })
+    handleCountryPress = (index: number): Promise<any> =>
+        Navigation.push(this.props.componentId, {
+            component: {
+                name: COUNTRY_DETAILS_SCREEN,
+                passProps: {
+                    country: this.getCountries()[index],
+                },
+            },
+        }).catch()
 }
 
-const mapStateToProps = (state: AppState): PropsFromState => {
-    const {
-        data: allCountries,
-        loading: allCountriesLoading,
-        error: allCountriesError
-    } = state.allCountries
-    const {
+const mapStateToProps = ({
+    allCountries: { data: allCountries, loading: allCountriesLoading, error: allCountriesError },
+    countriesByRegion: {
         data: countriesByRegion,
         loading: countriesByRegionLoading,
-        error: countriesByRegionError
-    } = state.countriesByRegion
-
-    return {
-        allCountries,
-        countriesByRegion,
-        loading: allCountriesLoading || countriesByRegionLoading,
-        allCountriesError,
-        countriesByRegionError
-    }
-}
+        error: countriesByRegionError,
+    },
+}: AppState): PropsFromState => ({
+    allCountries,
+    countriesByRegion,
+    loading: allCountriesLoading || countriesByRegionLoading,
+    allCountriesError,
+    countriesByRegionError,
+})
 
 const mapDispatchToProps: PropsFromDispatch = {
     getAllCountries,
     getCountriesByRegion,
     clearAllCountries,
-    clearCountriesByRegion
+    clearCountriesByRegion,
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CountriesScreen)
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps,
+)(CountriesScreen)

@@ -1,47 +1,31 @@
-import React, {ReactElement} from 'react'
-import {Country} from '../../../network/data/CountryInterface'
+import React, { ReactElement } from 'react'
+import { Country } from '../../../network/data/CountryInterface'
 import CountriesListCell from './CountriesListCell'
-import {FlatList} from 'react-native'
+import { FlatList } from 'react-native'
 
 export interface Props {
     countries: Country[]
-    onCountryPress?: (country: Country) => void
+    onCountryPress?: (index: number) => void
 }
 
-export interface State {
-}
-
-const initialState: State = {}
 const defaultProps: Props = {
-    countries: []
+    countries: [],
 }
 
-class CountriesList extends React.Component<Props, State> {
-    readonly state: State = initialState
-    static defaultProps: Props = defaultProps
+const CountriesList = ({ countries, onCountryPress }: Props): ReactElement<any> => {
+    const getRenderItem = ({
+        item,
+        index,
+    }: {
+        item: Country
+        index: number
+    }): ReactElement<any> => (
+        <CountriesListCell country={item} onCountryPress={onCountryPress} index={index} />
+    )
+    const keyExtractor = ({ id }: Country): string => id
 
-    render(): ReactElement<any> {
-        const {
-            countries,
-        } = this.props
-
-        return (
-            <FlatList data={countries}
-                      renderItem={({item}) => this.getRenderItem(item)}
-                      keyExtractor={item => item.id}/>
-        )
-    }
-
-    getRenderItem = (item: Country): ReactElement<any> => {
-        const {
-            onCountryPress
-        } = this.props
-
-        return (
-            <CountriesListCell country={item}
-                               onCountryPress={onCountryPress}/>
-        )
-    }
+    return <FlatList data={countries} renderItem={getRenderItem} keyExtractor={keyExtractor} />
 }
+CountriesList.defaultProps = defaultProps
 
 export default CountriesList

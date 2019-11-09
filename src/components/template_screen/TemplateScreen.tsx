@@ -1,14 +1,12 @@
-import React, {ReactElement} from 'react'
-import {NavigationScreenProp} from 'react-navigation'
-import {SafeAreaView} from 'react-native';
+import React, { ReactElement } from 'react'
+import { View } from 'react-native'
 import styles from './styles'
 
 interface Props {
-    navigation?: NavigationScreenProp<State, Props>
+    componentId?: string
 }
 
-interface State {
-}
+interface State {}
 
 const initialState: State = {}
 const defaultProps: Props = {}
@@ -18,9 +16,7 @@ class TemplateScreen extends React.Component<Props, State> {
     static defaultProps: Props = defaultProps
 
     render(): ReactElement<any> {
-        return (
-            <SafeAreaView style={styles.container}/>
-        )
+        return <View style={styles.container} />
     }
 }
 

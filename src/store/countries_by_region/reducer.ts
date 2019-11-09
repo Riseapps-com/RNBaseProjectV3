@@ -1,9 +1,9 @@
-import {Country} from '../../network/data/CountryInterface'
-import {Action} from '../ActionInterface'
-import {CLEAR, FAILED, SUCCESS} from '../../appConstants'
-import {Region} from '../../network/data/RegionType'
-import {GET_COUNTRIES_BY_REGION} from './actions'
-import {NetworkDataState} from '../NetworkDataState'
+import { Country } from '../../network/data/CountryInterface'
+import { Action } from '../ActionInterface'
+import { CLEAR, FAILED, SUCCESS } from '../../appConstants'
+import { Region } from '../../network/data/RegionType'
+import { GET_COUNTRIES_BY_REGION } from './actions'
+import { NetworkDataState } from '../NetworkDataState'
 
 export interface CountriesByRegionState extends NetworkDataState {
     readonly data: Country[]
@@ -14,33 +14,34 @@ const initState: CountriesByRegionState = {
     data: [],
     loading: false,
     error: 'Data is empty',
-    region: 'africa'
+    region: 'africa',
 }
 
-const countriesByRegion = (state: CountriesByRegionState = initState, action: Action): CountriesByRegionState => {
+const countriesByRegion = (
+    state: CountriesByRegionState = initState,
+    { type, response }: Action,
+): CountriesByRegionState => {
     let newState: CountriesByRegionState = null
-    const {payload} = action
-    switch (action.type) {
+    switch (type) {
         case GET_COUNTRIES_BY_REGION:
             newState = {
                 ...state,
                 loading: true,
-                region: payload.region
             }
             break
         case `${GET_COUNTRIES_BY_REGION}${SUCCESS}`:
             newState = {
                 ...state,
                 loading: false,
-                data: action.response,
-                error: ''
+                data: response,
+                error: '',
             }
             break
         case `${GET_COUNTRIES_BY_REGION}${FAILED}`:
             newState = {
                 ...state,
                 loading: false,
-                error: action.response
+                error: response,
             }
             break
         case `${GET_COUNTRIES_BY_REGION}${CLEAR}`:
