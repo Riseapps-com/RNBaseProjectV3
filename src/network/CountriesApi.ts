@@ -10,7 +10,7 @@ const BY_CODE: string = 'alpha'
 const getAllCountries = () => get<Country[]>(ALL).then(data => updateIds<Country>(data))
 const getCountriesByRegion = (region: Region) =>
     get<Country[]>(`${BY_REGION}/${region}`).then(data => updateIds<Country>(data))
-const getCountryByCode = (code: string) =>
-    get<Country[]>(`${BY_CODE}/${code}`).then(data => updateIds<Country>(data))
+const getCountryByCode = (code: string) => get<Country>(`${BY_CODE}/${code}`)
+
 
 export { getAllCountries, getCountriesByRegion, getCountryByCode }

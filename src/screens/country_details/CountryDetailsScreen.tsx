@@ -78,7 +78,6 @@ class CountryDetailsScreen extends React.Component<Props, State> {
     }
 }
 
-
 const mapStateToProps = ({ countryDetails: { data, loading } }: AppState): PropsFromState => ({
     countryDetails: data,
     loading,
