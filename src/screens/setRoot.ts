@@ -1,8 +1,7 @@
-import { registerScreens, SPLASH_SCREEN } from './screens'
-import { Navigation } from 'react-native-navigation'
-import { colors } from '../assets/colors'
+import {registerScreens, SPLASH_SCREEN} from './screens'
+import {Navigation} from 'react-native-navigation'
+import {colors} from '../assets/colors'
 import getPlatformFont from '../assets/fonts/getFontByPlatform'
-import imgs from '../assets/imgs/imgs'
 
 const setRoot = (): void => {
     registerScreens()
@@ -23,7 +22,8 @@ const setRoot = (): void => {
             },
             backButton: {
                 visible: true,
-                icon: imgs.back_arrow,
+                // icon: imgs.back_arrow,
+                color: 'white',
             },
             background: {
                 color: colors.primary,
