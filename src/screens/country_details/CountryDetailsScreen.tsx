@@ -1,7 +1,5 @@
-import React, { ReactElement } from 'react'
-import { Country, defaultCountry } from '../../network/data/CountryInterface'
-import { AppState } from '../../store/rootReducer'
-import { connect } from 'react-redux'
+import React, { Dispatch, useEffect } from 'react'
+import { Country } from '../../network/data/CountryInterface'
 import { clearCountryDetails, getCountryDetails } from '../../store/country_details/actions'
 import styles from './styles'
 import CountryDetailsView from './components/country_details_view/CountryDetailsView'
@@ -11,84 +9,45 @@ import { View } from 'react-native'
 import { Options } from 'react-native-navigation'
 import { waitForRenderOptions } from '../../utils/navigationUtils'
 import { colors } from '../../assets/colors'
+import { useDispatch, useGlobalState } from '../../store/configureStore'
+import { Action } from '../../store/ActionInterface'
 
-type Props = OwnProps & PropsFromState & PropsFromDispatch
+type Props = OwnProps
 
 export interface OwnProps {
     componentId?: string
     country: Country
 }
 
-interface PropsFromState {
-    countryDetails: Country
-    loading: boolean
-}
+const CountryDetailsScreen = ({ country: { alpha2Code } }: Props) => {
+    const dispatch: Dispatch<Action> = useDispatch()
+    const { data: countryDetails, loading } = useGlobalState('countryDetails')
 
-interface PropsFromDispatch {
-    getCountryDetails?: typeof getCountryDetails
-    clearCountryDetails?: typeof clearCountryDetails
-}
+    useEffect(() => {
+        dispatch(getCountryDetails(alpha2Code))
+    }, [])
 
-const initialState: State = {}
-const defaultProps: Props = {
-    country: defaultCountry,
-    countryDetails: defaultCountry,
-    loading: false,
-}
-
-interface State {}
-
-class CountryDetailsScreen extends React.Component<Props, State> {
-    readonly state: State = initialState
-    static defaultProps: Props = defaultProps
-
-    static options({ country: { name } }: Props): Options {
-        return {
-            ...waitForRenderOptions(),
-            topBar: {
-                title: {
-                    text: name,
-                },
-            },
+    useEffect(() => {
+        return () => {
+            dispatch(clearCountryDetails())
         }
-    }
+    })
 
-    componentDidMount() {
-        const {
-            country: { alpha2Code },
-            getCountryDetails,
-        } = this.props
-        getCountryDetails(alpha2Code)
-    }
-
-    componentWillUnmount() {
-        const { clearCountryDetails } = this.props
-        clearCountryDetails()
-    }
-
-    render(): ReactElement<any> {
-        const { countryDetails, loading } = this.props
-
-        return (
-            <View style={styles.container}>
-                <CountryDetailsView country={countryDetails} />
-                <Spinner visible={loading} color={colors.primary} />
-            </View>
-        )
-    }
+    return (
+        <View style={styles.container}>
+            <CountryDetailsView country={countryDetails} />
+            <Spinner visible={loading} color={colors.primary} />
+        </View>
+    )
 }
 
-const mapStateToProps = ({ countryDetails: { data, loading } }: AppState): PropsFromState => ({
-    countryDetails: data,
-    loading,
+CountryDetailsScreen.options = ({ country: { name } }: Props): Options => ({
+    ...waitForRenderOptions(),
+    topBar: {
+        title: {
+            text: name,
+        },
+    },
 })
 
-const mapDispatchToProps: PropsFromDispatch = {
-    getCountryDetails,
-    clearCountryDetails,
-}
-
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps,
-)(CountryDetailsScreen)
+export default CountryDetailsScreen

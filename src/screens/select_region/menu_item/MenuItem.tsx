@@ -65,4 +65,4 @@ const getBottomDivider = (): ReactElement<any> => {
     return <View style={styles.bottomDivider} />
 }
 
-export default MenuItem
+export default React.memo(MenuItem)

@@ -9,7 +9,7 @@ export interface CountryDetailsState extends NetworkDataState {
     readonly code: string
 }
 
-const initState: CountryDetailsState = {
+export const initStateCountryDetails: CountryDetailsState = {
     data: defaultCountry,
     loading: false,
     error: 'Data is empty',
@@ -17,7 +17,7 @@ const initState: CountryDetailsState = {
 }
 
 const countryDetails = (
-    state: CountryDetailsState = initState,
+    state: CountryDetailsState = initStateCountryDetails,
     { response, type }: Action,
 ): CountryDetailsState => {
     let newState: CountryDetailsState = null
@@ -44,7 +44,7 @@ const countryDetails = (
             }
             break
         case `${GET_COUNTRY_DETAILS}${CLEAR}`:
-            newState = initState
+            newState = initStateCountryDetails
             break
     }
     return newState || state

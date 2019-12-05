@@ -10,7 +10,7 @@ export interface CountriesByRegionState extends NetworkDataState {
     readonly region: Region
 }
 
-const initState: CountriesByRegionState = {
+export const initStateCountriesByRegion: CountriesByRegionState = {
     data: [],
     loading: false,
     error: 'Data is empty',
@@ -18,7 +18,7 @@ const initState: CountriesByRegionState = {
 }
 
 const countriesByRegion = (
-    state: CountriesByRegionState = initState,
+    state: CountriesByRegionState = initStateCountriesByRegion,
     { type, response }: Action,
 ): CountriesByRegionState => {
     let newState: CountriesByRegionState = null
@@ -45,7 +45,7 @@ const countriesByRegion = (
             }
             break
         case `${GET_COUNTRIES_BY_REGION}${CLEAR}`:
-            newState = initState
+            newState = initStateCountriesByRegion
             break
     }
     return newState || state

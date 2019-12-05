@@ -1,6 +1,6 @@
-import {registerScreens, SPLASH_SCREEN} from './screens'
-import {Navigation} from 'react-native-navigation'
-import {colors} from '../assets/colors'
+import {  registerScreens, SPLASH_SCREEN } from './screens'
+import { Navigation } from 'react-native-navigation'
+import { colors } from '../assets/colors'
 import getPlatformFont from '../assets/fonts/getFontByPlatform'
 
 const setRoot = (): void => {

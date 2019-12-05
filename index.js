@@ -11,6 +11,8 @@ Text.defaultProps.allowFontScaling = false
 TouchableOpacity.defaultProps = TouchableOpacity.defaultProps || {}
 TouchableOpacity.defaultProps.activeOpacity = 0.7
 
+console.disableYellowBox = true;
+
 configure(true)
 Navigation.events().registerAppLaunchedListener(() => {
     setI18nConfig()

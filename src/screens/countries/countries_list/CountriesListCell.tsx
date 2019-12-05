@@ -66,4 +66,4 @@ const greyText: TextStyle = {
     color: 'grey',
 }
 
-export default CountriesListCell
+export default React.memo(CountriesListCell)

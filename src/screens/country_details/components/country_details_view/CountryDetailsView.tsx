@@ -101,4 +101,4 @@ const getCurrencies = (country: Country): string => {
     return currencies
 }
 
-export default CountryDetailsView
+export default React.memo(CountryDetailsView)

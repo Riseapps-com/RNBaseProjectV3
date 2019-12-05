@@ -67,4 +67,4 @@ const getMenuItemText = (menuItemOption: MenuItemOption): string => {
 
 const getBottomDivider = (): ReactElement<any> => <View style={styles.bottomDivider} />
 
-export default MenuItem
+export default React.memo(MenuItem)

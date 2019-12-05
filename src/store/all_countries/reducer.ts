@@ -8,25 +8,27 @@ export interface AllCountriesState extends NetworkDataState {
     readonly data: Country[]
 }
 
-const initState: AllCountriesState = {
+export const initStateAllCountries: AllCountriesState = {
     data: [],
     loading: false,
     error: 'Data is empty',
 }
 
 const allCountries = (
-    state: AllCountriesState = initState,
+    state: AllCountriesState = initStateAllCountries,
     { type, response }: Action,
 ): AllCountriesState => {
     let newState: AllCountriesState = null
     switch (type) {
         case GET_ALL_COUNTRIES:
+            console.log('GET_ALL_COUNTRIES_REDUCER')
             newState = {
                 ...state,
                 loading: true,
             }
             break
         case `${GET_ALL_COUNTRIES}${SUCCESS}`:
+            console.log('GET_ALL_COUNTRIES_SUCCESS_REDUCER')
             newState = {
                 ...state,
                 loading: false,
@@ -42,7 +44,7 @@ const allCountries = (
             }
             break
         case `${GET_ALL_COUNTRIES}${CLEAR}`:
-            newState = initState
+            newState = initStateAllCountries
             break
     }
     return newState || state
