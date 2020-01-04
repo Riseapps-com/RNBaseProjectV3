@@ -1,11 +1,10 @@
-import { Country, defaultCountry } from '../../network/data/CountryInterface'
+import { defaultCountry, ICountry } from '../../network/data/ICountry'
 import { Action } from '../ActionInterface'
 import { GET_COUNTRY_DETAILS } from './actions'
-import { CLEAR, FAILED, SUCCESS } from '../../appConstants'
 import { NetworkDataState } from '../NetworkDataState'
 
 export interface CountryDetailsState extends NetworkDataState {
-    readonly data: Country
+    readonly data: ICountry
     readonly code: string
 }
 
@@ -18,17 +17,17 @@ export const initStateCountryDetails: CountryDetailsState = {
 
 const countryDetails = (
     state: CountryDetailsState = initStateCountryDetails,
-    { response, type }: Action,
+    { payload: { response }, type }: Action,
 ): CountryDetailsState => {
     let newState: CountryDetailsState = null
     switch (type) {
-        case GET_COUNTRY_DETAILS:
+        case GET_COUNTRY_DETAILS.request:
             newState = {
                 ...state,
                 loading: true,
             }
             break
-        case `${GET_COUNTRY_DETAILS}${SUCCESS}`:
+        case GET_COUNTRY_DETAILS.success:
             newState = {
                 ...state,
                 loading: false,
@@ -36,14 +35,14 @@ const countryDetails = (
                 error: '',
             }
             break
-        case `${GET_COUNTRY_DETAILS}${FAILED}`:
+        case GET_COUNTRY_DETAILS.failure:
             newState = {
                 ...state,
                 loading: false,
                 error: response,
             }
             break
-        case `${GET_COUNTRY_DETAILS}${CLEAR}`:
+        case GET_COUNTRY_DETAILS.reset:
             newState = initStateCountryDetails
             break
     }

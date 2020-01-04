@@ -1,13 +1,8 @@
-import { ACTIONS_PACKAGE, CLEAR } from '../../appConstants'
-import { Action } from '../ActionInterface'
+import { ACTIONS_PACKAGE } from '../../appConstants'
+import { ActionTypes, createActionTypes, makeActionByTypes } from '../reduxHelpers'
 
-const GET_ALL_COUNTRIES = `${ACTIONS_PACKAGE}.GET_ALL_COUNTRIES`
+const GET_ALL_COUNTRIES: ActionTypes = createActionTypes(`${ACTIONS_PACKAGE}.GET_ALL_COUNTRIES`)
 
-const getAllCountries = (): Action => ({
-    type: GET_ALL_COUNTRIES,
-})
-const clearAllCountries = (): Action => ({
-    type: `${GET_ALL_COUNTRIES}${CLEAR}`,
-})
+const getAllCountries = makeActionByTypes(GET_ALL_COUNTRIES)
 
-export { GET_ALL_COUNTRIES, getAllCountries, clearAllCountries }
+export { GET_ALL_COUNTRIES, getAllCountries }

@@ -1,14 +1,14 @@
 import React, { ReactElement } from 'react'
 import { Text, TouchableOpacity, View } from 'react-native'
 import styles from './styles'
-import { Region } from '../../../network/data/RegionType'
+import { TRegion } from '../../../network/data/TRegion'
 import FastImage from 'react-native-fast-image'
 import i18n from 'i18n-js'
 import imgs from '../../../assets/imgs/imgs'
 
 export interface Props {
-    onMenuItemPress?: (region: Region) => void
-    region: Region
+    onMenuItemPress?: (region: TRegion) => void
+    region: TRegion
     bottomDivider?: boolean
 }
 
@@ -17,7 +17,7 @@ const defaultProps: Props = {
     bottomDivider: false,
 }
 
-const MenuItem = ({ onMenuItemPress, region, bottomDivider }: Props): ReactElement<any> => {
+const MenuItem = ({ onMenuItemPress, region, bottomDivider }: Props): ReactElement => {
     const handleMenuItemPress = (): void => onMenuItemPress && onMenuItemPress(region)
     return (
         <View style={styles.container}>
@@ -33,11 +33,11 @@ const MenuItem = ({ onMenuItemPress, region, bottomDivider }: Props): ReactEleme
 }
 MenuItem.defaultProps = defaultProps
 
-const getMenuImg = (region: Region): ReactElement<any> => (
+const getMenuImg = (region: TRegion): ReactElement => (
     <FastImage source={imgs[region]} style={styles.menuImg} />
 )
 
-const getMenuItemText = (region: Region): string => {
+const getMenuItemText = (region: TRegion): string => {
     let menuItemText: string = i18n.t('All Countries')
 
     switch (region) {
@@ -61,7 +61,7 @@ const getMenuItemText = (region: Region): string => {
     return menuItemText
 }
 
-const getBottomDivider = (): ReactElement<any> => {
+const getBottomDivider = (): ReactElement => {
     return <View style={styles.bottomDivider} />
 }
 

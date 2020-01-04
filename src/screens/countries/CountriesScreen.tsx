@@ -1,11 +1,8 @@
 import React, { Dispatch, ReactElement, useEffect } from 'react'
-import { Country } from '../../network/data/CountryInterface'
-import { Region } from '../../network/data/RegionType'
-import {
-    clearCountriesByRegion,
-    getCountriesByRegion,
-} from '../../store/countries_by_region/actions'
-import { clearAllCountries, getAllCountries } from '../../store/all_countries/actions'
+import { ICountry } from '../../network/data/ICountry'
+import { TRegion } from '../../network/data/TRegion'
+import { getCountriesByRegion } from '../../store/countries_by_region/actions'
+import { getAllCountries } from '../../store/all_countries/actions'
 import { Text, View } from 'react-native'
 import styles from './styles'
 import CountriesList from './countries_list/CountriesList'
@@ -19,40 +16,44 @@ import { waitForRenderOptions } from '../../utils/navigationUtils'
 import { useDispatch, useGlobalState } from '../../store/configureStore'
 import { Action } from '../../store/ActionInterface'
 
-type Props = OwnProps
-
-export interface OwnProps {
+export interface Props {
     componentId?: string
-    region?: Region
+    region?: TRegion
     countriesType: CountriesType
+}
+const defaultProps: Props = {
+    region: 'africa',
+    countriesType: 'all_countries',
 }
 
 export type CountriesType = 'all_countries' | 'countries_by_region'
 
 const CountriesScreen = ({ countriesType, region, componentId }: Props) => {
     const dispatch: Dispatch<Action> = useDispatch()
-    const { data: allCountries, error: allCountriesError } = useGlobalState('allCountries')
-    const { data: countriesByRegion, error: countriesByRegionError } = useGlobalState(
-        'countriesByRegion',
-    )
-    const loading: boolean =
-        useGlobalState('allCountries').loading || useGlobalState('countriesByRegion').loading
+    const {
+        data: allCountries,
+        error: allCountriesError,
+        loading: allCountriesLoading,
+    } = useGlobalState('allCountries')
+    const {
+        data: countriesByRegion,
+        error: countriesByRegionError,
+        loading: countriesByRegionLoading,
+    } = useGlobalState('countriesByRegion')
+    const loading: boolean = allCountriesLoading || countriesByRegionLoading
 
     useEffect(() => {
         switch (countriesType) {
             case 'all_countries':
-                dispatch(getAllCountries())
+                dispatch(getAllCountries.request({}))
                 break
             case 'countries_by_region':
-                dispatch(getCountriesByRegion(region))
+                dispatch(getCountriesByRegion.request({ region }))
                 break
         }
-    }, [])
-
-    useEffect(() => {
         return () => {
-            dispatch(clearAllCountries())
-            dispatch(clearCountriesByRegion())
+            dispatch(getAllCountries.reset())
+            dispatch(getCountriesByRegion.reset())
         }
     }, [])
 
@@ -90,8 +91,8 @@ const CountriesScreen = ({ countriesType, region, componentId }: Props) => {
         return isError
     }
 
-    const getCountries = (): Country[] => {
-        let countries: Country[] = allCountries
+    const getCountries = (): ICountry[] => {
+        let countries: ICountry[] = allCountries
 
         switch (countriesType) {
             case 'all_countries':
@@ -127,6 +128,7 @@ const CountriesScreen = ({ countriesType, region, componentId }: Props) => {
     )
 }
 
+CountriesScreen.defaultProps = defaultProps
 CountriesScreen.options = ({ countriesType, region }: Props): Options => ({
     ...waitForRenderOptions(),
     topBar: {
@@ -136,7 +138,7 @@ CountriesScreen.options = ({ countriesType, region }: Props): Options => ({
     },
 })
 
-const getTitle = (countriesType: CountriesType, region: Region): string => {
+const getTitle = (countriesType: CountriesType, region: TRegion): string => {
     let title: string = ''
 
     switch (countriesType) {

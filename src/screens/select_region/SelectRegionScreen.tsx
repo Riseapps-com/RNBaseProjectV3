@@ -2,7 +2,7 @@ import React from 'react'
 import MenuItem from './menu_item/MenuItem'
 import { View } from 'react-native'
 import styles from './styles'
-import { Region } from '../../network/data/RegionType'
+import { TRegion } from '../../network/data/TRegion'
 import { Navigation, Options } from 'react-native-navigation'
 import { waitForRenderOptions } from '../../utils/navigationUtils'
 import { COUNTRIES_SCREEN } from '../screens'
@@ -10,9 +10,10 @@ import { COUNTRIES_SCREEN } from '../screens'
 interface Props {
     componentId?: string
 }
+const defaultProps: Props = {}
 
 const SelectRegionScreen = ({ componentId }: Props) => {
-    const handleMenuPress = (region: Region): Promise<any> =>
+    const handleMenuPress = (region: TRegion): Promise<any> =>
         Navigation.push(componentId, {
             component: {
                 name: COUNTRIES_SCREEN,
@@ -34,6 +35,7 @@ const SelectRegionScreen = ({ componentId }: Props) => {
     )
 }
 
+SelectRegionScreen.defaultProps = defaultProps
 SelectRegionScreen.options = (): Options => ({
     ...waitForRenderOptions(),
     topBar: {

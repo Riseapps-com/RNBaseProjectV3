@@ -14,5 +14,7 @@
     "Region": "Region",
     "Subregion": "Subregion",
     "Timezones": "Timezones",
-    "Version": "Version"
+    "Version": "Version",
+    "network_connection_error": "There is no internet connection",
+    "network_error": "Something went wrong. Try it later."
 }

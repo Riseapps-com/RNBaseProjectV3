@@ -1,11 +1,10 @@
-import { Country } from '../../network/data/CountryInterface'
+import { ICountry } from '../../network/data/ICountry'
 import { Action } from '../ActionInterface'
 import { GET_ALL_COUNTRIES } from './actions'
-import { CLEAR, FAILED, SUCCESS } from '../../appConstants'
 import { NetworkDataState } from '../NetworkDataState'
 
 export interface AllCountriesState extends NetworkDataState {
-    readonly data: Country[]
+    readonly data: ICountry[]
 }
 
 export const initStateAllCountries: AllCountriesState = {
@@ -16,19 +15,17 @@ export const initStateAllCountries: AllCountriesState = {
 
 const allCountries = (
     state: AllCountriesState = initStateAllCountries,
-    { type, response }: Action,
+    { type, payload: { response } }: Action,
 ): AllCountriesState => {
     let newState: AllCountriesState = null
     switch (type) {
-        case GET_ALL_COUNTRIES:
-            console.log('GET_ALL_COUNTRIES_REDUCER')
+        case GET_ALL_COUNTRIES.request:
             newState = {
                 ...state,
                 loading: true,
             }
             break
-        case `${GET_ALL_COUNTRIES}${SUCCESS}`:
-            console.log('GET_ALL_COUNTRIES_SUCCESS_REDUCER')
+        case GET_ALL_COUNTRIES.success:
             newState = {
                 ...state,
                 loading: false,
@@ -36,14 +33,14 @@ const allCountries = (
                 error: '',
             }
             break
-        case `${GET_ALL_COUNTRIES}${FAILED}`:
+        case GET_ALL_COUNTRIES.failure:
             newState = {
                 ...state,
                 loading: false,
                 error: response,
             }
             break
-        case `${GET_ALL_COUNTRIES}${CLEAR}`:
+        case GET_ALL_COUNTRIES.reset:
             newState = initStateAllCountries
             break
     }

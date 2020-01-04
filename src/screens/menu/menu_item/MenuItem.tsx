@@ -18,7 +18,7 @@ const defaultProps: Props = {
     bottomDivider: false,
 }
 
-const MenuItem = ({ menuItemOption, bottomDivider, onMenuItemPress }: Props): ReactElement<any> => {
+const MenuItem = ({ menuItemOption, bottomDivider, onMenuItemPress }: Props): ReactElement => {
     const handleMenuItemPress = (): void => onMenuItemPress && onMenuItemPress(menuItemOption)
 
     return (
@@ -35,7 +35,7 @@ const MenuItem = ({ menuItemOption, bottomDivider, onMenuItemPress }: Props): Re
 }
 MenuItem.defaultProps = defaultProps
 
-const getMenuImg = (menuItemOption: MenuItemOption): ReactElement<any> => {
+const getMenuImg = (menuItemOption: MenuItemOption): ReactElement => {
     let source: number = -1
 
     switch (menuItemOption) {
@@ -65,6 +65,6 @@ const getMenuItemText = (menuItemOption: MenuItemOption): string => {
     return menuItemText
 }
 
-const getBottomDivider = (): ReactElement<any> => <View style={styles.bottomDivider} />
+const getBottomDivider = (): ReactElement => <View style={styles.bottomDivider} />
 
 export default React.memo(MenuItem)

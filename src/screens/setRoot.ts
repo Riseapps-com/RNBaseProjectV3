@@ -1,10 +1,9 @@
-import {  registerScreens, SPLASH_SCREEN } from './screens'
+import { SPLASH_SCREEN } from './screens'
 import { Navigation } from 'react-native-navigation'
 import { colors } from '../assets/colors'
 import getPlatformFont from '../assets/fonts/getFontByPlatform'
 
-const setRoot = (): void => {
-    registerScreens()
+const setDefaultOptions = (): void => {
     Navigation.setDefaultOptions({
         layout: {
             backgroundColor: 'white',
@@ -33,6 +32,9 @@ const setRoot = (): void => {
             style: 'light',
         },
     })
+}
+
+const setRoot = (): void => {
     Navigation.setRoot({
         root: {
             stack: {
@@ -48,4 +50,4 @@ const setRoot = (): void => {
     }).catch()
 }
 
-export { setRoot }
+export { setDefaultOptions, setRoot }

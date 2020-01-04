@@ -1,6 +1,6 @@
 import React, { Dispatch, useEffect } from 'react'
-import { Country } from '../../network/data/CountryInterface'
-import { clearCountryDetails, getCountryDetails } from '../../store/country_details/actions'
+import { defaultCountry, ICountry } from '../../network/data/ICountry'
+import { getCountryDetails } from '../../store/country_details/actions'
 import styles from './styles'
 import CountryDetailsView from './components/country_details_view/CountryDetailsView'
 // @ts-ignore
@@ -12,11 +12,12 @@ import { colors } from '../../assets/colors'
 import { useDispatch, useGlobalState } from '../../store/configureStore'
 import { Action } from '../../store/ActionInterface'
 
-type Props = OwnProps
-
-export interface OwnProps {
+export interface Props {
     componentId?: string
-    country: Country
+    country: ICountry
+}
+const defaultProps: Props = {
+    country: defaultCountry,
 }
 
 const CountryDetailsScreen = ({ country: { alpha2Code } }: Props) => {
@@ -24,13 +25,11 @@ const CountryDetailsScreen = ({ country: { alpha2Code } }: Props) => {
     const { data: countryDetails, loading } = useGlobalState('countryDetails')
 
     useEffect(() => {
-        dispatch(getCountryDetails(alpha2Code))
+        dispatch(getCountryDetails.request({ alpha2Code }))
     }, [])
 
     useEffect(() => {
-        return () => {
-            dispatch(clearCountryDetails())
-        }
+        return () => dispatch(getCountryDetails.reset())
     })
 
     return (
@@ -41,6 +40,7 @@ const CountryDetailsScreen = ({ country: { alpha2Code } }: Props) => {
     )
 }
 
+CountryDetailsScreen.defaultOptions = defaultProps
 CountryDetailsScreen.options = ({ country: { name } }: Props): Options => ({
     ...waitForRenderOptions(),
     topBar: {

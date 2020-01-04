@@ -1,17 +1,10 @@
-import { ACTIONS_PACKAGE, CLEAR } from '../../appConstants'
-import { Action } from '../ActionInterface'
-import { Region } from '../../network/data/RegionType'
+import { ACTIONS_PACKAGE } from '../../appConstants'
+import { ActionTypes, createActionTypes, makeActionByTypes } from '../reduxHelpers'
 
-const GET_COUNTRIES_BY_REGION = `${ACTIONS_PACKAGE}.GET_COUNTRIES_BY_REGION`
+const GET_COUNTRIES_BY_REGION: ActionTypes = createActionTypes(
+    `${ACTIONS_PACKAGE}.GET_COUNTRIES_BY_REGION`,
+)
 
-const getCountriesByRegion = (region: Region): Action => ({
-    type: GET_COUNTRIES_BY_REGION,
-    payload: {
-        region,
-    },
-})
-const clearCountriesByRegion = (): Action => ({
-    type: `${GET_COUNTRIES_BY_REGION}${CLEAR}`,
-})
+const getCountriesByRegion = makeActionByTypes(GET_COUNTRIES_BY_REGION)
 
-export { GET_COUNTRIES_BY_REGION, getCountriesByRegion, clearCountriesByRegion }
+export { GET_COUNTRIES_BY_REGION, getCountriesByRegion }

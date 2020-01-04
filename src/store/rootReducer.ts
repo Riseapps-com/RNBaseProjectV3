@@ -1,33 +1,24 @@
-// import { Reducer } from 'redux'
-// import allCountries, { AllCountriesState } from './all_countries/reducer'
-// import countriesByRegion, { CountriesByRegionState } from './countries_by_region/reducer'
-// import countryDetails, { CountryDetailsState } from './country_details/reducer'
-// import { AsyncStorage } from 'react-native'
-// import { persistCombineReducers } from 'redux-persist'
-// import autoMergeLevel2 from 'redux-persist/es/stateReconciler/autoMergeLevel2'
-// import { PersistConfig } from 'redux-persist/es/types'
-//
-// export type AppState = Api & Other
-//
-// export interface Api {
-//     allCountries: AllCountriesState
-//     countriesByRegion: CountriesByRegionState
-//     countryDetails: CountryDetailsState
-// }
-//
-// export interface Other {}
-//
-// // @ts-ignore
-// const persistConfig: PersistConfig = {
-//     key: 'root',
-//     storage: AsyncStorage,
-//     whitelist: [],
-//     blacklist: ['allCountries', 'countriesByRegion', 'countryDetails'],
-//     stateReconciler: autoMergeLevel2,
-// }
-//
-// export const rootReducer: Reducer<AppState> = persistCombineReducers<AppState>(persistConfig, {
-//     allCountries,
-//     countriesByRegion,
-//     countryDetails,
-// })
+import allCountries, { AllCountriesState, initStateAllCountries } from './all_countries/reducer'
+import countriesByRegion, { CountriesByRegionState, initStateCountriesByRegion } from './countries_by_region/reducer'
+import countryDetails, { CountryDetailsState, initStateCountryDetails } from './country_details/reducer'
+import { Action } from './ActionInterface'
+
+export interface GlobalState {
+    allCountries: AllCountriesState
+    countriesByRegion: CountriesByRegionState
+    countryDetails: CountryDetailsState
+}
+
+const rootReducer = (state: GlobalState, action: Action): GlobalState => ({
+    allCountries: allCountries(state.allCountries, action),
+    countriesByRegion: countriesByRegion(state.countriesByRegion, action),
+    countryDetails: countryDetails(state.countryDetails, action),
+})
+
+const globalState: GlobalState = {
+    allCountries: initStateAllCountries,
+    countriesByRegion: initStateCountriesByRegion,
+    countryDetails: initStateCountryDetails,
+}
+
+export { rootReducer, globalState }

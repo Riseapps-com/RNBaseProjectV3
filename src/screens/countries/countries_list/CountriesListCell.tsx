@@ -1,4 +1,4 @@
-import { Country, defaultCountry } from '../../../network/data/CountryInterface'
+import { ICountry, defaultCountry } from '../../../network/data/ICountry'
 import React, { ReactElement, useState } from 'react'
 import { Text, TextStyle, TouchableOpacity, View } from 'react-native'
 import styles from './styles'
@@ -9,7 +9,7 @@ const selectedGradientColors: string[] = ['rgba(0, 54, 167, 0.8)', colors.primar
 const notSelectedGradientColors: string[] = ['white', 'white']
 
 export interface Props {
-    country: Country
+    country: ICountry
     index: number
     onCountryPress?: (index: number) => void
 }

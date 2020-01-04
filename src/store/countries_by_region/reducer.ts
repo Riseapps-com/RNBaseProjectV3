@@ -1,13 +1,12 @@
-import { Country } from '../../network/data/CountryInterface'
+import { ICountry } from '../../network/data/ICountry'
 import { Action } from '../ActionInterface'
-import { CLEAR, FAILED, SUCCESS } from '../../appConstants'
-import { Region } from '../../network/data/RegionType'
+import { TRegion } from '../../network/data/TRegion'
 import { GET_COUNTRIES_BY_REGION } from './actions'
 import { NetworkDataState } from '../NetworkDataState'
 
 export interface CountriesByRegionState extends NetworkDataState {
-    readonly data: Country[]
-    readonly region: Region
+    readonly data: ICountry[]
+    readonly region: TRegion
 }
 
 export const initStateCountriesByRegion: CountriesByRegionState = {
@@ -19,17 +18,17 @@ export const initStateCountriesByRegion: CountriesByRegionState = {
 
 const countriesByRegion = (
     state: CountriesByRegionState = initStateCountriesByRegion,
-    { type, response }: Action,
+    { type, payload: { response } }: Action,
 ): CountriesByRegionState => {
     let newState: CountriesByRegionState = null
     switch (type) {
-        case GET_COUNTRIES_BY_REGION:
+        case GET_COUNTRIES_BY_REGION.request:
             newState = {
                 ...state,
                 loading: true,
             }
             break
-        case `${GET_COUNTRIES_BY_REGION}${SUCCESS}`:
+        case GET_COUNTRIES_BY_REGION.success:
             newState = {
                 ...state,
                 loading: false,
@@ -37,14 +36,14 @@ const countriesByRegion = (
                 error: '',
             }
             break
-        case `${GET_COUNTRIES_BY_REGION}${FAILED}`:
+        case GET_COUNTRIES_BY_REGION.failure:
             newState = {
                 ...state,
                 loading: false,
                 error: response,
             }
             break
-        case `${GET_COUNTRIES_BY_REGION}${CLEAR}`:
+        case GET_COUNTRIES_BY_REGION.reset:
             newState = initStateCountriesByRegion
             break
     }

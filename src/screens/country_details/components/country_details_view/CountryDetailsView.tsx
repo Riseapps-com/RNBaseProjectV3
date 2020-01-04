@@ -2,17 +2,17 @@ import React, { ReactElement } from 'react'
 import { Text, View } from 'react-native'
 import styles from './styles'
 import i18n from 'i18n-js'
-import { Country, defaultCountry } from '../../../../network/data/CountryInterface'
+import { ICountry, defaultCountry } from '../../../../network/data/ICountry'
 
 export interface Props {
-    country: Country
+    country: ICountry
 }
 
 const defaultProps: Props = {
     country: defaultCountry,
 }
 
-const CountryDetailsView = ({ country }: Props): ReactElement<any> => {
+const CountryDetailsView = ({ country }: Props): ReactElement => {
     const { name, capital, region, subregion, languages, currencies, timezones } = country
     return (
         <View style={styles.container}>
@@ -69,7 +69,7 @@ const CountryDetailsView = ({ country }: Props): ReactElement<any> => {
 }
 CountryDetailsView.defaultProps = defaultProps
 
-const getLanguages = (country: Country): string => {
+const getLanguages = (country: ICountry): string => {
     let languages: string = ''
 
     country.languages.forEach((item, index) => {
@@ -85,7 +85,7 @@ const getLanguages = (country: Country): string => {
     return languages
 }
 
-const getCurrencies = (country: Country): string => {
+const getCurrencies = (country: ICountry): string => {
     let currencies: string = ''
 
     country.currencies.forEach((item, index) => {
