@@ -1,4 +1,4 @@
-import { Action } from './ActionInterface'
+import { IAction } from './IAction'
 import { Dispatch } from 'react'
 import { GET_COUNTRIES_BY_REGION } from './countries_by_region/actions'
 import { GET_COUNTRY_DETAILS } from './country_details/actions'
@@ -7,8 +7,8 @@ import { fetchAllCountries } from './all_countries/middleware'
 import { fetchCountriesByRegion } from './countries_by_region/middleware'
 import { fetchCountryDetails } from './country_details/middleware'
 
-export const applyMiddleware = (dispatch: Dispatch<Action>) => async (
-    action: Action,
+export const applyMiddleware = (dispatch: Dispatch<IAction>) => async (
+    action: IAction,
 ): Promise<void> => {
     switch (action.type) {
         case GET_ALL_COUNTRIES.request:

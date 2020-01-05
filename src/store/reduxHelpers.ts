@@ -1,4 +1,4 @@
-import { Action } from './ActionInterface'
+import { IAction } from './IAction'
 
 export const SUCCESS = 'SUCCESS'
 export const FAILURE = 'FAILURE'
@@ -13,10 +13,10 @@ export interface ActionTypes {
 }
 
 export interface Actions {
-    request?: (payload?: object) => Action
-    success?: (payload?: object) => Action
-    failure?: (payload?: object) => Action
-    reset?: (payload?: object) => Action
+    request?: (payload?: object) => IAction
+    success?: (payload?: object, response?: any) => IAction
+    failure?: (payload?: object, response?: any) => IAction
+    reset?: (payload?: object) => IAction
 }
 
 export const createActionTypes = (type: string): ActionTypes => ({
@@ -26,7 +26,7 @@ export const createActionTypes = (type: string): ActionTypes => ({
     reset: `${type}/${RESET}`,
 })
 
-export const createAction = (type: string): Function => (payload?: object): Action => ({
+export const createAction = (type: string): Function => (payload?: object): IAction => ({
     type,
     payload,
 })

@@ -1,7 +1,7 @@
 import allCountries, { AllCountriesState, initStateAllCountries } from './all_countries/reducer'
 import countriesByRegion, { CountriesByRegionState, initStateCountriesByRegion } from './countries_by_region/reducer'
 import countryDetails, { CountryDetailsState, initStateCountryDetails } from './country_details/reducer'
-import { Action } from './ActionInterface'
+import { IAction } from './IAction'
 
 export interface GlobalState {
     allCountries: AllCountriesState
@@ -9,7 +9,7 @@ export interface GlobalState {
     countryDetails: CountryDetailsState
 }
 
-const rootReducer = (state: GlobalState, action: Action): GlobalState => ({
+const rootReducer = (state: GlobalState, action: IAction): GlobalState => ({
     allCountries: allCountries(state.allCountries, action),
     countriesByRegion: countriesByRegion(state.countriesByRegion, action),
     countryDetails: countryDetails(state.countryDetails, action),

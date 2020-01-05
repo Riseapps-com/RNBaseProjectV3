@@ -10,6 +10,7 @@ export interface Props {
     onMenuItemPress?: (region: TRegion) => void
     region: TRegion
     bottomDivider?: boolean
+    testID?: string
 }
 
 const defaultProps: Props = {
@@ -17,11 +18,14 @@ const defaultProps: Props = {
     bottomDivider: false,
 }
 
-const MenuItem = ({ onMenuItemPress, region, bottomDivider }: Props): ReactElement => {
+const MenuItem = ({ testID, onMenuItemPress, region, bottomDivider }: Props): ReactElement => {
     const handleMenuItemPress = (): void => onMenuItemPress && onMenuItemPress(region)
     return (
         <View style={styles.container}>
-            <TouchableOpacity onPress={handleMenuItemPress} style={styles.contentContainer}>
+            <TouchableOpacity
+                testID={testID}
+                onPress={handleMenuItemPress}
+                style={styles.contentContainer}>
                 <View style={styles.menuImgContainer}>{getMenuImg(region)}</View>
                 <View style={styles.menuTextContainer}>
                     <Text style={styles.menuText}>{getMenuItemText(region)}</Text>

@@ -1,10 +1,11 @@
 import React from 'react'
 import MenuItem, { MenuItemOption } from './menu_item/MenuItem'
-import { View } from 'react-native'
+import { StatusBar, View } from 'react-native'
 import styles from './styles'
 import { Navigation, Options } from 'react-native-navigation'
 import { waitForRenderOptions } from '../../utils/navigationUtils'
 import { COUNTRIES_SCREEN, SELECT_REGION_SCREEN } from '../screens'
+import { testIDs } from '../../../e2e/testIDs'
 
 interface Props {
     componentId?: string
@@ -42,12 +43,18 @@ const MenuScreen = ({ componentId }: Props) => {
 
     return (
         <View style={styles.container}>
+            <StatusBar barStyle={'dark-content'} />
             <MenuItem
+                testID={testIDs.menu.allCountries}
                 menuItemOption={'all_countries'}
                 onMenuItemPress={handleMenuPress}
                 bottomDivider={true}
             />
-            <MenuItem menuItemOption={'countries_by_region'} onMenuItemPress={handleMenuPress} />
+            <MenuItem
+                testID={testIDs.menu.countriesByRegion}
+                menuItemOption={'countries_by_region'}
+                onMenuItemPress={handleMenuPress}
+            />
         </View>
     )
 }

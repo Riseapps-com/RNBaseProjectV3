@@ -7,12 +7,18 @@
         "ios": "react-native run-ios",
         "start": "react-native start",
         "test": "jest",
-        "lint": "eslint ."
+        "lint": "eslint .",
+        "postinstall": "npx jetify",
+        "build-debug-android": "node ./scripts/build-debug-android.js",
+        "build-release-android": "node ./scripts/build-release-android.js",
+        "test-e2e-android": "node ./scripts/test-e2e-android.js",
+        "test-e2e-ios": "node ./scripts/test-e2e-ios.js"
     },
     "dependencies": {
         "@react-native-community/netinfo": "5.2.0",
         "@types/node": "13.1.4",
         "axios": "0.19.0",
+        "detox": "^15.0.0",
         "i18n-js": "3.5.1",
         "react": "16.9.0",
         "react-native": "0.61.5",
@@ -37,8 +43,30 @@
         "metro-react-native-babel-preset": "0.56.0",
         "prettier": "1.18.2",
         "reactotron-react-native": "4.0.2",
+        "shell-utils": "1.0.10",
         "tslint-config-airbnb": "5.11.2",
         "typescript": "3.7.4"
+    },
+    "detox": {
+        "configurations": {
+            "ios.sim.debug": {
+                "binaryPath": "ios/build/Build/Products/Debug-iphonesimulator/RNBaseProjectV3.app",
+                "build": "xcodebuild -workspace ios/RNBaseProjectV3.xcworkspace -scheme RNBaseProjectV3 -configuration Debug -sdk iphonesimulator -derivedDataPath ios/build",
+                "type": "ios.simulator",
+                "device": {
+                    "type": "iPhone 11 Pro Max"
+                }
+            },
+            "android.em.debug": {
+                "binaryPath": "android/app/build/outputs/apk/debug/app-debug.apk",
+                "build": "cd android && rm -rf app/build && ./gradlew assembleDebug assembleAndroidTest -DtestBuildType=debug && cd ..",
+                "type": "android.emulator",
+                "device": {
+                    "avdName": "Pixel_XL_API_29"
+                }
+            }
+        },
+        "test-runner": "jest"
     },
     "jest": {
         "preset": "react-native"

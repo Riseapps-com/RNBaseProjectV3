@@ -1,12 +1,12 @@
-import { Action } from '../ActionInterface'
+import { IAction } from '../IAction'
 import { ICountry } from '../../network/data/ICountry'
 import { Dispatch } from 'react'
 import { CountriesAPI } from '../../network/CountriesApi'
 import { getCountryDetails } from './actions'
 
 export const fetchCountryDetails = async (
-    dispatch: Dispatch<Action>,
-    action: Action,
+    dispatch: Dispatch<IAction>,
+    action: IAction,
 ): Promise<void> => {
     try {
         const {

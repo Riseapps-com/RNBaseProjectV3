@@ -1,9 +1,9 @@
 import { defaultCountry, ICountry } from '../../network/data/ICountry'
-import { Action } from '../ActionInterface'
+import { IAction } from '../IAction'
 import { GET_COUNTRY_DETAILS } from './actions'
-import { NetworkDataState } from '../NetworkDataState'
+import { INetworkDataState } from '../INetworkDataState'
 
-export interface CountryDetailsState extends NetworkDataState {
+export interface CountryDetailsState extends INetworkDataState {
     readonly data: ICountry
     readonly code: string
 }
@@ -17,7 +17,7 @@ export const initStateCountryDetails: CountryDetailsState = {
 
 const countryDetails = (
     state: CountryDetailsState = initStateCountryDetails,
-    { payload: { response }, type }: Action,
+    { payload: { response }, type }: IAction,
 ): CountryDetailsState => {
     let newState: CountryDetailsState = null
     switch (type) {

@@ -1,4 +1,4 @@
-export interface NetworkDataState {
+export interface INetworkDataState {
     readonly loading: boolean
     readonly error?: string
 }

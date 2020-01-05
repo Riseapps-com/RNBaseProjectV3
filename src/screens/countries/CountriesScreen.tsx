@@ -3,7 +3,7 @@ import { ICountry } from '../../network/data/ICountry'
 import { TRegion } from '../../network/data/TRegion'
 import { getCountriesByRegion } from '../../store/countries_by_region/actions'
 import { getAllCountries } from '../../store/all_countries/actions'
-import { Text, View } from 'react-native'
+import { StatusBar, Text, View } from 'react-native'
 import styles from './styles'
 import CountriesList from './countries_list/CountriesList'
 // @ts-ignore
@@ -14,7 +14,8 @@ import { COUNTRY_DETAILS_SCREEN } from '../screens'
 import { colors } from '../../assets/colors'
 import { waitForRenderOptions } from '../../utils/navigationUtils'
 import { useDispatch, useGlobalState } from '../../store/configureStore'
-import { Action } from '../../store/ActionInterface'
+import { IAction } from '../../store/IAction'
+import { testIDs } from '../../../e2e/testIDs'
 
 export interface Props {
     componentId?: string
@@ -29,7 +30,7 @@ const defaultProps: Props = {
 export type CountriesType = 'all_countries' | 'countries_by_region'
 
 const CountriesScreen = ({ countriesType, region, componentId }: Props) => {
-    const dispatch: Dispatch<Action> = useDispatch()
+    const dispatch: Dispatch<IAction> = useDispatch()
     const {
         data: allCountries,
         error: allCountriesError,
@@ -118,6 +119,7 @@ const CountriesScreen = ({ countriesType, region, componentId }: Props) => {
 
     return (
         <View style={styles.container}>
+            <StatusBar barStyle={'light-content'} />
             {isError() ? (
                 getErrorView()
             ) : (
@@ -135,6 +137,7 @@ CountriesScreen.options = ({ countriesType, region }: Props): Options => ({
         title: {
             text: getTitle(countriesType, region),
         },
+        testID: testIDs.countries.back,
     },
 })
 

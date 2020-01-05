@@ -1,9 +1,9 @@
 import { ICountry } from '../../network/data/ICountry'
-import { Action } from '../ActionInterface'
+import { IAction } from '../IAction'
 import { GET_ALL_COUNTRIES } from './actions'
-import { NetworkDataState } from '../NetworkDataState'
+import { INetworkDataState } from '../INetworkDataState'
 
-export interface AllCountriesState extends NetworkDataState {
+export interface AllCountriesState extends INetworkDataState {
     readonly data: ICountry[]
 }
 
@@ -15,7 +15,7 @@ export const initStateAllCountries: AllCountriesState = {
 
 const allCountries = (
     state: AllCountriesState = initStateAllCountries,
-    { type, payload: { response } }: Action,
+    { type, payload: { response } }: IAction,
 ): AllCountriesState => {
     let newState: AllCountriesState = null
     switch (type) {

@@ -1,5 +1,5 @@
 import React, { ReactElement, useEffect } from 'react'
-import { Text, View } from 'react-native'
+import { StatusBar, Text, View } from 'react-native'
 import styles from './styles'
 import DeviceInfo from 'react-native-device-info'
 import i18n from 'i18n-js'
@@ -45,6 +45,7 @@ const SplashScreen = ({ componentId }: Props): ReactElement => {
 
     return (
         <View style={styles.container}>
+            <StatusBar barStyle={'dark-content'} />
             <FastImage
                 source={imgs.logo_white}
                 style={styles.logo}

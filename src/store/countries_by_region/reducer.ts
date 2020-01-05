@@ -1,10 +1,10 @@
 import { ICountry } from '../../network/data/ICountry'
-import { Action } from '../ActionInterface'
+import { IAction } from '../IAction'
 import { TRegion } from '../../network/data/TRegion'
 import { GET_COUNTRIES_BY_REGION } from './actions'
-import { NetworkDataState } from '../NetworkDataState'
+import { INetworkDataState } from '../INetworkDataState'
 
-export interface CountriesByRegionState extends NetworkDataState {
+export interface CountriesByRegionState extends INetworkDataState {
     readonly data: ICountry[]
     readonly region: TRegion
 }
@@ -18,7 +18,7 @@ export const initStateCountriesByRegion: CountriesByRegionState = {
 
 const countriesByRegion = (
     state: CountriesByRegionState = initStateCountriesByRegion,
-    { type, payload: { response } }: Action,
+    { type, payload: { response } }: IAction,
 ): CountriesByRegionState => {
     let newState: CountriesByRegionState = null
     switch (type) {

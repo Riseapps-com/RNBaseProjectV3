@@ -1,9 +1,10 @@
-import { ICountry, defaultCountry } from '../../../network/data/ICountry'
+import { defaultCountry, ICountry } from '../../../network/data/ICountry'
 import React, { ReactElement, useState } from 'react'
 import { Text, TextStyle, TouchableOpacity, View } from 'react-native'
 import styles from './styles'
 import LinearGradient from 'react-native-linear-gradient'
 import { colors } from '../../../assets/colors'
+import { testIDs } from '../../../../e2e/testIDs'
 
 const selectedGradientColors: string[] = ['rgba(0, 54, 167, 0.8)', colors.primary]
 const notSelectedGradientColors: string[] = ['white', 'white']
@@ -36,6 +37,7 @@ const CountriesListCell = ({
             onPress={handleCountryPress}
             onPressIn={handlePressIn}
             onPressOut={handlePressOut}
+            testID={`${testIDs.countries.country}${index}`}
             style={styles.container}>
             <LinearGradient
                 colors={isPressed ? selectedGradientColors : notSelectedGradientColors}
