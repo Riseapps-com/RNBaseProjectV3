@@ -18,9 +18,10 @@ export const initStateCountriesByRegion: CountriesByRegionState = {
 
 const countriesByRegion = (
     state: CountriesByRegionState = initStateCountriesByRegion,
-    { type, payload: { response } }: IAction,
+    { type, payload }: IAction,
 ): CountriesByRegionState => {
     let newState: CountriesByRegionState = null
+    const { response } = payload ? payload : { response: [] }
     switch (type) {
         case GET_COUNTRIES_BY_REGION.request:
             newState = {

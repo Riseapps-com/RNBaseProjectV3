@@ -17,9 +17,10 @@ export const initStateCountryDetails: CountryDetailsState = {
 
 const countryDetails = (
     state: CountryDetailsState = initStateCountryDetails,
-    { payload: { response }, type }: IAction,
+    { payload, type }: IAction,
 ): CountryDetailsState => {
     let newState: CountryDetailsState = null
+    const { response } = payload ? payload : { response: defaultCountry }
     switch (type) {
         case GET_COUNTRY_DETAILS.request:
             newState = {

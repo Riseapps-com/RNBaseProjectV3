@@ -1,22 +1,27 @@
-import React, { ComponentType, Context, createContext, Dispatch, useContext, useReducer } from 'react'
-import { IAction } from './IAction'
-import { applyMiddleware } from './applyMiddleware'
-import { globalState, GlobalState, rootReducer } from './rootReducer'
-import { logger } from './logger'
+import { applyMiddleware, compose, createStore, Store } from 'redux'
+import createSagaMiddleware from 'redux-saga'
+import { rootSaga } from './rootSaga'
+import { AppState, rootReducer } from './rootReducer'
+import { Persistor } from 'redux-persist/es/types'
+import { persistStore } from 'redux-persist'
+import { configureReactotron } from '../ReactotronConfig'
 
-const StateContext: Context<GlobalState> = createContext(globalState)
-const DispatchContext: Context<Dispatch<IAction>> = createContext((() => 0) as Dispatch<IAction>)
-
-export const GlobalStateProvider: ComponentType = ({ children }) => {
-    const [state, dispatch] = useReducer(logger(rootReducer), globalState)
-    return (
-        <DispatchContext.Provider value={applyMiddleware(dispatch)}>
-            <StateContext.Provider value={state}>{children}</StateContext.Provider>
-        </DispatchContext.Provider>
+const configureStore = (): Store<AppState> => {
+    const sagaMiddleware = createSagaMiddleware({
+        sagaMonitor: configureReactotron().createSagaMonitor(),
+    })
+    const store: Store<AppState> = createStore(
+        rootReducer,
+        compose(
+            applyMiddleware(sagaMiddleware),
+            configureReactotron().createEnhancer(),
+        ),
     )
+    sagaMiddleware.run(rootSaga)
+    return store
 }
 
-export const useDispatch = (): Dispatch<IAction> => useContext(DispatchContext)
+const store: Store<AppState> = configureStore()
+const persistor: Persistor = persistStore(store)
 
-export const useGlobalState = <K extends keyof GlobalState>(property: K) =>
-    useContext(StateContext)[property]
+export { store, persistor }

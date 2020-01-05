@@ -1,4 +1,4 @@
-import React, { Dispatch, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { defaultCountry, ICountry } from '../../network/data/ICountry'
 import { getCountryDetails } from '../../store/country_details/actions'
 import styles from './styles'
@@ -9,29 +9,44 @@ import { StatusBar, View } from 'react-native'
 import { Options } from 'react-native-navigation'
 import { waitForRenderOptions } from '../../utils/navigationUtils'
 import { colors } from '../../assets/colors'
-import { useDispatch, useGlobalState } from '../../store/configureStore'
-import { IAction } from '../../store/IAction'
 import { testIDs } from '../../../e2e/testIDs'
+import { connect } from 'react-redux'
+import { AppState } from '../../store/rootReducer'
 
-export interface Props {
+type Props = OwnProps & PropsFromState & PropsFromDispatch
+
+export interface OwnProps {
     componentId?: string
     country: ICountry
 }
-const defaultProps: Props = {
-    country: defaultCountry,
+
+interface PropsFromState {
+    countryDetails: ICountry
+    loading: boolean
 }
 
-const CountryDetailsScreen = ({ country: { alpha2Code } }: Props) => {
-    const dispatch: Dispatch<IAction> = useDispatch()
-    const { data: countryDetails, loading } = useGlobalState('countryDetails')
+interface PropsFromDispatch {
+    getCountryDetails?: typeof getCountryDetails.request
+    resetCountryDetails?: typeof getCountryDetails.reset
+}
 
+const defaultProps: Props = {
+    country: defaultCountry,
+    countryDetails: defaultCountry,
+    loading: false,
+}
+
+const CountryDetailsScreen = ({
+    country: { alpha2Code },
+    getCountryDetails,
+    resetCountryDetails,
+    countryDetails,
+    loading,
+}: Props) => {
     useEffect(() => {
-        dispatch(getCountryDetails.request({ alpha2Code }))
+        getCountryDetails({ alpha2Code })
+        return () => resetCountryDetails()
     }, [])
-
-    useEffect(() => {
-        return () => dispatch(getCountryDetails.reset())
-    })
 
     return (
         <View style={styles.container}>
@@ -53,4 +68,17 @@ CountryDetailsScreen.options = ({ country: { name } }: Props): Options => ({
     },
 })
 
-export default CountryDetailsScreen
+const mapStateToProps = ({ countryDetails: { data, loading } }: AppState): PropsFromState => ({
+    countryDetails: data,
+    loading,
+})
+
+const mapDispatchToProps: PropsFromDispatch = {
+    getCountryDetails: getCountryDetails.request,
+    resetCountryDetails: getCountryDetails.reset,
+}
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps,
+)(CountryDetailsScreen)

@@ -1,4 +1,4 @@
-import React, { Dispatch, ReactElement, useEffect } from 'react'
+import React, { ReactElement, useEffect } from 'react'
 import { ICountry } from '../../network/data/ICountry'
 import { TRegion } from '../../network/data/TRegion'
 import { getCountriesByRegion } from '../../store/countries_by_region/actions'
@@ -13,48 +13,69 @@ import { Navigation, Options } from 'react-native-navigation'
 import { COUNTRY_DETAILS_SCREEN } from '../screens'
 import { colors } from '../../assets/colors'
 import { waitForRenderOptions } from '../../utils/navigationUtils'
-import { useDispatch, useGlobalState } from '../../store/configureStore'
-import { IAction } from '../../store/IAction'
 import { testIDs } from '../../../e2e/testIDs'
+import { AppState } from '../../store/rootReducer'
+import { connect } from 'react-redux'
 
-export interface Props {
+type Props = OwnProps & PropsFromState & PropsFromDispatch
+
+export interface OwnProps {
     componentId?: string
     region?: TRegion
     countriesType: CountriesType
 }
+
+interface PropsFromState {
+    allCountries: ICountry[]
+    countriesByRegion: ICountry[]
+    loading: boolean
+    allCountriesError?: string
+    countriesByRegionError?: string
+}
+
+interface PropsFromDispatch {
+    getAllCountries?: typeof getAllCountries.request
+    getCountriesByRegion?: typeof getCountriesByRegion.request
+    resetAllCountries?: typeof getAllCountries.reset
+    resetCountriesByRegion?: typeof getCountriesByRegion.reset
+}
+
 const defaultProps: Props = {
-    region: 'africa',
     countriesType: 'all_countries',
+    allCountries: [],
+    countriesByRegion: [],
+    loading: false,
+    region: 'africa',
 }
 
 export type CountriesType = 'all_countries' | 'countries_by_region'
 
-const CountriesScreen = ({ countriesType, region, componentId }: Props) => {
-    const dispatch: Dispatch<IAction> = useDispatch()
-    const {
-        data: allCountries,
-        error: allCountriesError,
-        loading: allCountriesLoading,
-    } = useGlobalState('allCountries')
-    const {
-        data: countriesByRegion,
-        error: countriesByRegionError,
-        loading: countriesByRegionLoading,
-    } = useGlobalState('countriesByRegion')
-    const loading: boolean = allCountriesLoading || countriesByRegionLoading
-
+const CountriesScreen = ({
+    allCountries,
+    allCountriesError,
+    countriesByRegionError,
+    countriesByRegion,
+    loading,
+    countriesType,
+    region,
+    componentId,
+    getAllCountries,
+    resetAllCountries,
+    resetCountriesByRegion,
+    getCountriesByRegion,
+}: Props) => {
     useEffect(() => {
         switch (countriesType) {
             case 'all_countries':
-                dispatch(getAllCountries.request({}))
+                getAllCountries({})
                 break
             case 'countries_by_region':
-                dispatch(getCountriesByRegion.request({ region }))
+                getCountriesByRegion({ region })
                 break
         }
         return () => {
-            dispatch(getAllCountries.reset())
-            dispatch(getCountriesByRegion.reset())
+            resetAllCountries()
+            resetCountriesByRegion()
         }
     }, [])
 
@@ -170,4 +191,29 @@ const getTitle = (countriesType: CountriesType, region: TRegion): string => {
     }
 }
 
-export default CountriesScreen
+const mapStateToProps = ({
+    allCountries: { data: allCountries, loading: allCountriesLoading, error: allCountriesError },
+    countriesByRegion: {
+        data: countriesByRegion,
+        loading: countriesByRegionLoading,
+        error: countriesByRegionError,
+    },
+}: AppState): PropsFromState => ({
+    allCountries,
+    countriesByRegion,
+    loading: allCountriesLoading || countriesByRegionLoading,
+    allCountriesError,
+    countriesByRegionError,
+})
+
+const mapDispatchToProps: PropsFromDispatch = {
+    getAllCountries: getAllCountries.request,
+    resetAllCountries: getAllCountries.reset,
+    getCountriesByRegion: getCountriesByRegion.request,
+    resetCountriesByRegion: getCountriesByRegion.reset,
+}
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps,
+)(CountriesScreen)

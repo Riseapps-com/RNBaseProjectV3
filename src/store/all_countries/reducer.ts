@@ -15,9 +15,10 @@ export const initStateAllCountries: AllCountriesState = {
 
 const allCountries = (
     state: AllCountriesState = initStateAllCountries,
-    { type, payload: { response } }: IAction,
+    { type, payload }: IAction,
 ): AllCountriesState => {
     let newState: AllCountriesState = null
+    const { response } = payload ? payload : { response: [] }
     switch (type) {
         case GET_ALL_COUNTRIES.request:
             newState = {
