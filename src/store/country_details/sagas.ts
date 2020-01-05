@@ -1,25 +1,14 @@
-import { Action } from '../ActionInterface'
 import { call, put } from 'redux-saga/effects'
-import { Country } from '../../network/data/CountryInterface'
-import { FAILED, SUCCESS } from '../../appConstants'
-import { GET_COUNTRY_DETAILS } from './actions'
-import { getCountryByCode as getCountryByCodeAPI } from '../../network/CountriesApi'
+import { getCountryDetails } from './actions'
+import { CountriesAPI } from '../../network/CountriesApi'
+import { ICountry } from '../../network/data/ICountry'
+import { IAction } from '../IAction'
 
-export function* getCountryDetails(action: Action) {
+export function* fetchCountryDetails({ payload: { alpha2Code } }: IAction) {
     try {
-        const countryByName: Country[] = yield call(getCountryByCodeAPI, action.payload.code)
-        const nextAction: Action = {
-            ...action,
-            type: `${GET_COUNTRY_DETAILS}${SUCCESS}`,
-            response: countryByName,
-        }
-        yield put(nextAction)
+        const countryByName: ICountry = yield call(CountriesAPI.getCountryByCode, alpha2Code)
+        yield put(getCountryDetails.success({ response: countryByName }))
     } catch (e) {
-        const nextAction: Action = {
-            ...action,
-            type: `${GET_COUNTRY_DETAILS}${FAILED}`,
-            response: e.message,
-        }
-        yield put(nextAction)
+        yield put(getCountryDetails.failure({ response: e.message }))
     }
 }

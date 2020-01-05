@@ -1,4 +1,4 @@
-export interface Country {
+export interface ICountry {
     id?: string
     name: string
     topLevelDomain: string[]
@@ -18,28 +18,28 @@ export interface Country {
     borders: string[]
     nativeName: string
     numericCode: string
-    currencies: Currency[]
-    languages: Language[]
-    translations: Translations
+    currencies: ICurrency[]
+    languages: ILanguage[]
+    translations: ITranslations
     flag: string
-    regionalBlocs: RegionalBloc[]
+    regionalBlocs: IRegionalBloc[]
     cioc: string
 }
 
-interface Currency {
+interface ICurrency {
     code: string
     name: string
     symbol: string
 }
 
-interface Language {
+interface ILanguage {
     iso639_1: string
     iso639_2: string
     name: string
     nativeName: string
 }
 
-interface Translations {
+interface ITranslations {
     de: string
     es: string
     fr: string
@@ -52,14 +52,14 @@ interface Translations {
     fa: string
 }
 
-interface RegionalBloc {
+interface IRegionalBloc {
     acronym: string
     name: string
     otherAcronyms: string[]
     otherNames: string[]
 }
 
-export const defaultCountry: Country = {
+export const defaultCountry: ICountry = {
     name: '',
     topLevelDomain: [],
     alpha2Code: '',

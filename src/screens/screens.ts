@@ -15,28 +15,36 @@ const COUNTRIES_SCREEN = `${SCREENS_PACKAGE}.COUNTRIES_SCREEN`
 const SELECT_REGION_SCREEN = `${SCREENS_PACKAGE}.SELECT_REGION_SCREEN`
 const COUNTRY_DETAILS_SCREEN = `${SCREENS_PACKAGE}.COUNTRY_DETAILS_SCREEN`
 
+const screens: { id: string; screen: any }[] = [
+    {
+        id: STORYBOOK,
+        screen: getStorybookUI(),
+    },
+    {
+        id: SPLASH_SCREEN,
+        screen: SplashScreen,
+    },
+    {
+        id: MENU_SCREEN,
+        screen: MenuScreen,
+    },
+    {
+        id: COUNTRIES_SCREEN,
+        screen: CountriesScreen,
+    },
+    {
+        id: SELECT_REGION_SCREEN,
+        screen: SelectRegionScreen,
+    },
+    {
+        id: COUNTRY_DETAILS_SCREEN,
+        screen: CountryDetailsScreen,
+    },
+]
+
 const registerScreens = (): void => {
-    Navigation.registerComponent(
-        STORYBOOK,
-        () => AppProvider(getStorybookUI()),
-        () => getStorybookUI(),
-    )
-    Navigation.registerComponent(SPLASH_SCREEN, () => AppProvider(SplashScreen), () => SplashScreen)
-    Navigation.registerComponent(MENU_SCREEN, () => AppProvider(MenuScreen), () => MenuScreen)
-    Navigation.registerComponent(
-        COUNTRIES_SCREEN,
-        () => AppProvider(CountriesScreen),
-        () => CountriesScreen,
-    )
-    Navigation.registerComponent(
-        SELECT_REGION_SCREEN,
-        () => AppProvider(SelectRegionScreen),
-        () => SelectRegionScreen,
-    )
-    Navigation.registerComponent(
-        COUNTRY_DETAILS_SCREEN,
-        () => AppProvider(CountryDetailsScreen),
-        () => CountryDetailsScreen,
+    screens.forEach(({ id, screen }) =>
+        Navigation.registerComponent(id, () => AppProvider(screen), () => screen),
     )
 }
 

@@ -1,6 +1,7 @@
 package com.rnbaseprojectv3;
 
 import com.BV.LinearGradient.LinearGradientPackage;
+import com.azendoo.reactnativesnackbar.SnackbarPackage;
 import com.dylanvann.fastimage.FastImageViewPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
@@ -40,7 +41,8 @@ public class MainApplication extends NavigationApplication {
                 new LinearGradientPackage(),
                 new RNLocalizePackage(),
                 new SplashScreenReactPackage(),
-                new RNDeviceInfo()
+                new RNDeviceInfo(),
+                new SnackbarPackage()
         );
     }
 

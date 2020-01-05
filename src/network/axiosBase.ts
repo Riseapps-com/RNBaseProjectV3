@@ -1,18 +1,29 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios'
+import Snackbar from 'react-native-snackbar'
+import { colors } from '../assets/colors'
+import i18n from 'i18n-js'
 
 const IS_DEV = true
-const BASE_URL = IS_DEV
-    ? 'https://restcountries.eu/rest/v2'
-    : 'https://restcountries.eu/rest/v2'
+const BASE_URL = IS_DEV ? 'https://restcountries.eu/rest/v2' : 'https://restcountries.eu/rest/v2'
 
 const instance: AxiosInstance = axios.create({
     baseURL: BASE_URL,
     headers: {
         'Content-Type': 'application/json',
     },
-    timeout: 8000,
+    timeout: 16000,
 })
-instance.interceptors.request.use(async config => config)
+instance.interceptors.response.use(
+    response => response,
+    async error => {
+        Snackbar.show({
+            title: i18n.t('network_error'),
+            color: colors.primary,
+            duration: Snackbar.LENGTH_SHORT,
+        })
+        return await Promise.reject(error)
+    },
+)
 
 const get = <R>(url: string, config?: AxiosRequestConfig): Promise<R> =>
     instance.get(url, config).then(({ data }) => data)

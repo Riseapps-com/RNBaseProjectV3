@@ -11,6 +11,7 @@ export interface Props {
     onMenuItemPress?: (menuItemOption: MenuItemOption) => void
     menuItemOption: MenuItemOption
     bottomDivider?: boolean
+    testID?: string
 }
 
 const defaultProps: Props = {
@@ -18,12 +19,20 @@ const defaultProps: Props = {
     bottomDivider: false,
 }
 
-const MenuItem = ({ menuItemOption, bottomDivider, onMenuItemPress }: Props): ReactElement<any> => {
+const MenuItem = ({
+    testID,
+    menuItemOption,
+    bottomDivider,
+    onMenuItemPress,
+}: Props): ReactElement => {
     const handleMenuItemPress = (): void => onMenuItemPress && onMenuItemPress(menuItemOption)
 
     return (
         <View style={styles.container}>
-            <TouchableOpacity onPress={handleMenuItemPress} style={styles.contentContainer}>
+            <TouchableOpacity
+                testID={testID}
+                onPress={handleMenuItemPress}
+                style={styles.contentContainer}>
                 <View style={styles.menuImgContainer}>{getMenuImg(menuItemOption)}</View>
                 <View style={styles.menuTextContainer}>
                     <Text style={styles.menuText}>{getMenuItemText(menuItemOption)}</Text>
@@ -35,7 +44,7 @@ const MenuItem = ({ menuItemOption, bottomDivider, onMenuItemPress }: Props): Re
 }
 MenuItem.defaultProps = defaultProps
 
-const getMenuImg = (menuItemOption: MenuItemOption): ReactElement<any> => {
+const getMenuImg = (menuItemOption: MenuItemOption): ReactElement => {
     let source: number = -1
 
     switch (menuItemOption) {
@@ -65,6 +74,6 @@ const getMenuItemText = (menuItemOption: MenuItemOption): string => {
     return menuItemText
 }
 
-const getBottomDivider = (): ReactElement<any> => <View style={styles.bottomDivider} />
+const getBottomDivider = (): ReactElement => <View style={styles.bottomDivider} />
 
-export default MenuItem
+export default React.memo(MenuItem)

@@ -1,15 +1,14 @@
-import { Country, defaultCountry } from '../../network/data/CountryInterface'
-import { Action } from '../ActionInterface'
+import { defaultCountry, ICountry } from '../../network/data/ICountry'
+import { IAction } from '../IAction'
 import { GET_COUNTRY_DETAILS } from './actions'
-import { CLEAR, FAILED, SUCCESS } from '../../appConstants'
-import { NetworkDataState } from '../NetworkDataState'
+import { INetworkDataState } from '../INetworkDataState'
 
-export interface CountryDetailsState extends NetworkDataState {
-    readonly data: Country
+export interface CountryDetailsState extends INetworkDataState {
+    readonly data: ICountry
     readonly code: string
 }
 
-const initState: CountryDetailsState = {
+export const initStateCountryDetails: CountryDetailsState = {
     data: defaultCountry,
     loading: false,
     error: 'Data is empty',
@@ -17,18 +16,19 @@ const initState: CountryDetailsState = {
 }
 
 const countryDetails = (
-    state: CountryDetailsState = initState,
-    { response, type }: Action,
+    state: CountryDetailsState = initStateCountryDetails,
+    { payload, type }: IAction,
 ): CountryDetailsState => {
     let newState: CountryDetailsState = null
+    const { response } = payload ? payload : { response: defaultCountry }
     switch (type) {
-        case GET_COUNTRY_DETAILS:
+        case GET_COUNTRY_DETAILS.request:
             newState = {
                 ...state,
                 loading: true,
             }
             break
-        case `${GET_COUNTRY_DETAILS}${SUCCESS}`:
+        case GET_COUNTRY_DETAILS.success:
             newState = {
                 ...state,
                 loading: false,
@@ -36,15 +36,15 @@ const countryDetails = (
                 error: '',
             }
             break
-        case `${GET_COUNTRY_DETAILS}${FAILED}`:
+        case GET_COUNTRY_DETAILS.failure:
             newState = {
                 ...state,
                 loading: false,
                 error: response,
             }
             break
-        case `${GET_COUNTRY_DETAILS}${CLEAR}`:
-            newState = initState
+        case GET_COUNTRY_DETAILS.reset:
+            newState = initStateCountryDetails
             break
     }
     return newState || state

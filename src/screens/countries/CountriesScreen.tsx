@@ -1,14 +1,9 @@
-import React, { ReactElement } from 'react'
-import { connect } from 'react-redux'
-import { Country } from '../../network/data/CountryInterface'
-import { Region } from '../../network/data/RegionType'
-import { AppState } from '../../store/rootReducer'
-import {
-    clearCountriesByRegion,
-    getCountriesByRegion,
-} from '../../store/countries_by_region/actions'
-import { clearAllCountries, getAllCountries } from '../../store/all_countries/actions'
-import { Text, View } from 'react-native'
+import React, { ReactElement, useEffect } from 'react'
+import { ICountry } from '../../network/data/ICountry'
+import { TRegion } from '../../network/data/TRegion'
+import { getCountriesByRegion } from '../../store/countries_by_region/actions'
+import { getAllCountries } from '../../store/all_countries/actions'
+import { StatusBar, Text, View } from 'react-native'
 import styles from './styles'
 import CountriesList from './countries_list/CountriesList'
 // @ts-ignore
@@ -18,96 +13,73 @@ import { Navigation, Options } from 'react-native-navigation'
 import { COUNTRY_DETAILS_SCREEN } from '../screens'
 import { colors } from '../../assets/colors'
 import { waitForRenderOptions } from '../../utils/navigationUtils'
+import { testIDs } from '../../../e2e/testIDs'
+import { AppState } from '../../store/rootReducer'
+import { connect } from 'react-redux'
 
 type Props = OwnProps & PropsFromState & PropsFromDispatch
 
 export interface OwnProps {
     componentId?: string
-    region?: Region
+    region?: TRegion
     countriesType: CountriesType
 }
 
 interface PropsFromState {
-    allCountries: Country[]
-    countriesByRegion: Country[]
+    allCountries: ICountry[]
+    countriesByRegion: ICountry[]
     loading: boolean
     allCountriesError?: string
     countriesByRegionError?: string
 }
 
 interface PropsFromDispatch {
-    getAllCountries?: typeof getAllCountries
-    getCountriesByRegion?: typeof getCountriesByRegion
-    clearAllCountries?: typeof clearAllCountries
-    clearCountriesByRegion?: typeof clearCountriesByRegion
+    getAllCountries?: typeof getAllCountries.request
+    getCountriesByRegion?: typeof getCountriesByRegion.request
+    resetAllCountries?: typeof getAllCountries.reset
+    resetCountriesByRegion?: typeof getCountriesByRegion.reset
 }
 
-export type CountriesType = 'all_countries' | 'countries_by_region'
-
-interface State {}
-
-const initialState: State = {}
 const defaultProps: Props = {
     countriesType: 'all_countries',
     allCountries: [],
     countriesByRegion: [],
     loading: false,
+    region: 'africa',
 }
 
-class CountriesScreen extends React.Component<Props, State> {
-    readonly state: State = initialState
-    static defaultProps: Props = defaultProps
+export type CountriesType = 'all_countries' | 'countries_by_region'
 
-    static options({ countriesType, region }: Props): Options {
-        return {
-            ...waitForRenderOptions(),
-            topBar: {
-                title: {
-                    text: CountriesScreen.getTitle(countriesType, region),
-                },
-            },
-        }
-    }
-
-    componentDidMount() {
-        const { countriesType, region } = this.props
-
+const CountriesScreen = ({
+    allCountries,
+    allCountriesError,
+    countriesByRegionError,
+    countriesByRegion,
+    loading,
+    countriesType,
+    region,
+    componentId,
+    getAllCountries,
+    resetAllCountries,
+    resetCountriesByRegion,
+    getCountriesByRegion,
+}: Props) => {
+    useEffect(() => {
         switch (countriesType) {
             case 'all_countries':
-                this.props.getAllCountries()
+                getAllCountries({})
                 break
             case 'countries_by_region':
-                this.props.getCountriesByRegion(region)
+                getCountriesByRegion({ region })
                 break
         }
-    }
+        return () => {
+            resetAllCountries()
+            resetCountriesByRegion()
+        }
+    }, [])
 
-    componentWillUnmount() {
-        const { clearAllCountries, clearCountriesByRegion } = this.props
-        clearAllCountries()
-        clearCountriesByRegion()
-    }
-
-    render(): ReactElement<any> {
-        const { loading } = this.props
-
-        return (
-            <View style={styles.container}>
-                {this.isError() ? (
-                    this.getErrorView()
-                ) : (
-                    <CountriesList
-                        countries={this.getCountries()}
-                        onCountryPress={this.handleCountryPress}
-                    />
-                )}
-                <Spinner visible={loading} color={colors.primary} />
-            </View>
-        )
-    }
-
-    getErrorView(): ReactElement<any> {
-        const { allCountriesError, countriesByRegionError, countriesType } = this.props
+    const getErrorView = (): ReactElement<any> => {
         let error: string = ''
 
         switch (countriesType) {
@@ -126,8 +98,7 @@ class CountriesScreen extends React.Component<Props, State> {
         )
     }
 
-    isError(): boolean {
-        const { allCountriesError, countriesByRegionError, countriesType } = this.props
+    const isError = (): boolean => {
         let isError: boolean = false
 
         switch (countriesType) {
@@ -142,40 +113,8 @@ class CountriesScreen extends React.Component<Props, State> {
         return isError
     }
 
-    static getTitle = (countriesType: CountriesType, region: Region): string => {
-        let title: string = ''
-
-        switch (countriesType) {
-            case 'all_countries':
-                title = i18n.t('All')
-                break
-            case 'countries_by_region':
-                switch (region) {
-                    case 'africa':
-                        title = i18n.t('Africa')
-                        break
-                    case 'oceania':
-                        title = i18n.t('Oceania')
-                        break
-                    case 'americas':
-                        title = i18n.t('Americas')
-                        break
-                    case 'asia':
-                        title = i18n.t('Asia')
-                        break
-                    case 'europe':
-                        title = i18n.t('Europe')
-                        break
-                }
-                break
-        }
-
-        return title
-    }
-
-    getCountries = (): Country[] => {
-        const { countriesType, allCountries, countriesByRegion } = this.props
-        let countries: Country[] = allCountries
+    const getCountries = (): ICountry[] => {
+        let countries: ICountry[] = allCountries
 
         switch (countriesType) {
             case 'all_countries':
@@ -189,15 +128,67 @@ class CountriesScreen extends React.Component<Props, State> {
         return countries
     }
 
-    handleCountryPress = (index: number): Promise<any> =>
-        Navigation.push(this.props.componentId, {
+    const handleCountryPress = (index: number): Promise<any> =>
+        Navigation.push(componentId, {
             component: {
                 name: COUNTRY_DETAILS_SCREEN,
                 passProps: {
-                    country: this.getCountries()[index],
+                    country: getCountries()[index],
                 },
             },
         }).catch()
+
+    return (
+        <View style={styles.container}>
+            <StatusBar barStyle={'light-content'} />
+            {isError() ? (
+                getErrorView()
+            ) : (
+                <CountriesList countries={getCountries()} onCountryPress={handleCountryPress} />
+            )}
+            <Spinner visible={loading} color={colors.primary} />
+        </View>
+    )
+}
+
+CountriesScreen.defaultProps = defaultProps
+CountriesScreen.options = ({ countriesType, region }: Props): Options => ({
+    ...waitForRenderOptions(),
+    topBar: {
+        title: {
+            text: getTitle(countriesType, region),
+        },
+        testID: testIDs.countries.back,
+    },
+})
+
+const getTitle = (countriesType: CountriesType, region: TRegion): string => {
+    let title: string = ''
+
+    switch (countriesType) {
+        case 'all_countries':
+            title = i18n.t('All')
+            return title
+        case 'countries_by_region':
+            switch (region) {
+                case 'africa':
+                    title = i18n.t('Africa')
+                    return title
+                case 'oceania':
+                    title = i18n.t('Oceania')
+                    return title
+                case 'americas':
+                    title = i18n.t('Americas')
+                    return title
+                case 'asia':
+                    title = i18n.t('Asia')
+                    return title
+                case 'europe':
+                    title = i18n.t('Europe')
+                    return title
+            }
+            return title
+    }
 }
 
 const mapStateToProps = ({
@@ -216,10 +207,10 @@ const mapStateToProps = ({
 })
 
 const mapDispatchToProps: PropsFromDispatch = {
-    getAllCountries,
-    getCountriesByRegion,
-    clearAllCountries,
-    clearCountriesByRegion,
+    getAllCountries: getAllCountries.request,
+    resetAllCountries: getAllCountries.reset,
+    getCountriesByRegion: getCountriesByRegion.request,
+    resetCountriesByRegion: getCountriesByRegion.reset,
 }
 
 export default connect(

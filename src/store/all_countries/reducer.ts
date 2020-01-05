@@ -1,32 +1,32 @@
-import { Country } from '../../network/data/CountryInterface'
-import { Action } from '../ActionInterface'
+import { ICountry } from '../../network/data/ICountry'
+import { IAction } from '../IAction'
 import { GET_ALL_COUNTRIES } from './actions'
-import { CLEAR, FAILED, SUCCESS } from '../../appConstants'
-import { NetworkDataState } from '../NetworkDataState'
+import { INetworkDataState } from '../INetworkDataState'
 
-export interface AllCountriesState extends NetworkDataState {
-    readonly data: Country[]
+export interface AllCountriesState extends INetworkDataState {
+    readonly data: ICountry[]
 }
 
-const initState: AllCountriesState = {
+export const initStateAllCountries: AllCountriesState = {
     data: [],
     loading: false,
     error: 'Data is empty',
 }
 
 const allCountries = (
-    state: AllCountriesState = initState,
-    { type, response }: Action,
+    state: AllCountriesState = initStateAllCountries,
+    { type, payload }: IAction,
 ): AllCountriesState => {
     let newState: AllCountriesState = null
+    const { response } = payload ? payload : { response: [] }
     switch (type) {
-        case GET_ALL_COUNTRIES:
+        case GET_ALL_COUNTRIES.request:
             newState = {
                 ...state,
                 loading: true,
             }
             break
-        case `${GET_ALL_COUNTRIES}${SUCCESS}`:
+        case GET_ALL_COUNTRIES.success:
             newState = {
                 ...state,
                 loading: false,
@@ -34,15 +34,15 @@ const allCountries = (
                 error: '',
             }
             break
-        case `${GET_ALL_COUNTRIES}${FAILED}`:
+        case GET_ALL_COUNTRIES.failure:
             newState = {
                 ...state,
                 loading: false,
                 error: response,
             }
             break
-        case `${GET_ALL_COUNTRIES}${CLEAR}`:
-            newState = initState
+        case GET_ALL_COUNTRIES.reset:
+            newState = initStateAllCountries
             break
     }
     return newState || state

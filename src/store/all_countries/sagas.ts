@@ -1,23 +1,13 @@
 import { call, put } from 'redux-saga/effects'
-import { GET_ALL_COUNTRIES } from './actions'
-import { Action } from '../ActionInterface'
-import { FAILED, SUCCESS } from '../../appConstants'
-import { Country } from '../../network/data/CountryInterface'
-import { getAllCountries as getAllCountriesAPI } from '../../network/CountriesApi'
+import { CountriesAPI } from '../../network/CountriesApi'
+import { ICountry } from '../../network/data/ICountry'
+import { getAllCountries } from './actions'
 
-export function* getAllCountries() {
+export function* fetchAllCountries() {
     try {
-        const allCountries: Country[] = yield call(getAllCountriesAPI)
-        const action: Action = {
-            type: `${GET_ALL_COUNTRIES}${SUCCESS}`,
-            response: allCountries,
-        }
-        yield put(action)
+        const allCountries: ICountry[] = yield call(CountriesAPI.getAllCountries)
+        yield put(getAllCountries.success({ response: allCountries }))
     } catch (e) {
-        const action: Action = {
-            type: `${GET_ALL_COUNTRIES}${FAILED}`,
-            response: e.message,
-        }
-        yield put(action)
+        yield put(getAllCountries.failure({ response: e.message }))
     }
 }

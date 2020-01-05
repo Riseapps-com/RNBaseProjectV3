@@ -3,7 +3,7 @@ interface Colors {
 }
 
 const colors: Colors = {
-    primary: '#0036A7'
+    primary: '#0036A7',
 }
 
 export { colors }

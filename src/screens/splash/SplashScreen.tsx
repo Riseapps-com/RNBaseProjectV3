@@ -1,5 +1,5 @@
-import React, { ReactElement } from 'react'
-import { Text, View } from 'react-native'
+import React, { ReactElement, useEffect } from 'react'
+import { StatusBar, Text, View } from 'react-native'
 import styles from './styles'
 import DeviceInfo from 'react-native-device-info'
 import i18n from 'i18n-js'
@@ -15,68 +15,55 @@ const SPLASH_DURATION: number = 2000
 interface Props {
     componentId?: string
 }
-
-interface State {}
-
-const initialState: State = {}
 const defaultProps: Props = {}
 
-class SplashScreen extends React.Component<Props, State> {
-    readonly state: State = initialState
-    static defaultProps: Props = defaultProps
-    timerHandle: number
+const SplashScreen = ({ componentId }: Props): ReactElement => {
+    const version: string = `${i18n.t(
+        'Version',
+    )}: ${DeviceInfo.getVersion()} (${DeviceInfo.getBuildNumber()})`
+    let timerHandle: NodeJS.Timeout = null
 
-    static options(): Options {
-        return {
-            ...waitForRenderOptions(),
-            topBar: {
-                visible: false,
-            },
-        }
+    const setTimer = (): void => {
+        timerHandle = setTimeout(() => startMenuScreen(), SPLASH_DURATION)
     }
-
-    componentWillUnmount() {
-        this.clearTimer()
-    }
-
-    render(): ReactElement<any> {
-        const version: string = `${i18n.t(
-            'Version',
-        )}: ${DeviceInfo.getVersion()} (${DeviceInfo.getBuildNumber()})`
-
-        return (
-            <View style={styles.container}>
-                <FastImage
-                    source={imgs.logo_white}
-                    style={styles.logo}
-                    resizeMode={FastImage.resizeMode.center}
-                    onLoadEnd={this.handleLoadEnd}
-                />
-                <View style={styles.versionContainer}>
-                    <Text style={styles.versionText}>{version}</Text>
-                </View>
-            </View>
-        )
-    }
-
-    handleLoadEnd = (): void => {
-        SplashScreenNative.hide()
-        this.setTimer()
-    }
-
-    setTimer = (): void => {
-        // @ts-ignore
-        this.timerHandle = setTimeout(() => this.startMenuScreen(), SPLASH_DURATION)
-    }
-
-    clearTimer = (): void => this.timerHandle && clearTimeout(this.timerHandle)
-
-    startMenuScreen = (): Promise<any> =>
-        Navigation.setStackRoot(this.props.componentId, {
+    const clearTimer = (): void => timerHandle && clearTimeout(timerHandle)
+    const startMenuScreen = (): Promise<any> =>
+        Navigation.setStackRoot(componentId, {
             component: {
                 name: MENU_SCREEN,
             },
         }).catch()
+
+    useEffect(() => {
+        return () => clearTimer()
+    }, [])
+
+    const handleLoadEnd = (): void => {
+        SplashScreenNative.hide()
+        setTimer()
+    }
+
+    return (
+        <View style={styles.container}>
+            <StatusBar barStyle={'dark-content'} />
+            <FastImage
+                source={imgs.logo_white}
+                style={styles.logo}
+                resizeMode={FastImage.resizeMode.center}
+                onLoadEnd={handleLoadEnd}
+            />
+            <View style={styles.versionContainer}>
+                <Text style={styles.versionText}>{version}</Text>
+            </View>
+        </View>
+    )
 }
+SplashScreen.defaultProps = defaultProps
+SplashScreen.options = (): Options => ({
+    ...waitForRenderOptions(),
+    topBar: {
+        visible: false,
+    },
+})
 
 export default SplashScreen

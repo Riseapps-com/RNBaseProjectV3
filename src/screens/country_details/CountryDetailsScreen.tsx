@@ -1,82 +1,72 @@
-import React, { ReactElement } from 'react'
-import { Country, defaultCountry } from '../../network/data/CountryInterface'
-import { AppState } from '../../store/rootReducer'
-import { connect } from 'react-redux'
-import { clearCountryDetails, getCountryDetails } from '../../store/country_details/actions'
+import React, { useEffect } from 'react'
+import { defaultCountry, ICountry } from '../../network/data/ICountry'
+import { getCountryDetails } from '../../store/country_details/actions'
 import styles from './styles'
 import CountryDetailsView from './components/country_details_view/CountryDetailsView'
 // @ts-ignore
 import Spinner from 'react-native-loading-spinner-overlay'
-import { View } from 'react-native'
+import { StatusBar, View } from 'react-native'
 import { Options } from 'react-native-navigation'
 import { waitForRenderOptions } from '../../utils/navigationUtils'
 import { colors } from '../../assets/colors'
+import { testIDs } from '../../../e2e/testIDs'
+import { connect } from 'react-redux'
+import { AppState } from '../../store/rootReducer'
 
 type Props = OwnProps & PropsFromState & PropsFromDispatch
 
 export interface OwnProps {
     componentId?: string
-    country: Country
+    country: ICountry
 }
 
 interface PropsFromState {
-    countryDetails: Country
+    countryDetails: ICountry
     loading: boolean
 }
 
 interface PropsFromDispatch {
-    getCountryDetails?: typeof getCountryDetails
-    clearCountryDetails?: typeof clearCountryDetails
+    getCountryDetails?: typeof getCountryDetails.request
+    resetCountryDetails?: typeof getCountryDetails.reset
 }
 
-const initialState: State = {}
 const defaultProps: Props = {
     country: defaultCountry,
     countryDetails: defaultCountry,
     loading: false,
 }
 
-interface State {}
+const CountryDetailsScreen = ({
+    country: { alpha2Code },
+    getCountryDetails,
+    resetCountryDetails,
+    countryDetails,
+    loading,
+}: Props) => {
+    useEffect(() => {
+        getCountryDetails({ alpha2Code })
+        return () => resetCountryDetails()
+    }, [])
 
-class CountryDetailsScreen extends React.Component<Props, State> {
-    readonly state: State = initialState
-    static defaultProps: Props = defaultProps
-
-    static options({ country: { name } }: Props): Options {
-        return {
-            ...waitForRenderOptions(),
-            topBar: {
-                title: {
-                    text: name,
-                },
-            },
-        }
-    }
-
-    componentDidMount() {
-        const {
-            country: { alpha2Code },
-            getCountryDetails,
-        } = this.props
-        getCountryDetails(alpha2Code)
-    }
-
-    componentWillUnmount() {
-        const { clearCountryDetails } = this.props
-        clearCountryDetails()
-    }
-
-    render(): ReactElement<any> {
-        const { countryDetails, loading } = this.props
-
-        return (
-            <View style={styles.container}>
-                <CountryDetailsView country={countryDetails} />
-                <Spinner visible={loading} color={colors.primary} />
-            </View>
-        )
-    }
+    return (
+        <View style={styles.container}>
+            <StatusBar barStyle={'light-content'} />
+            <CountryDetailsView country={countryDetails} />
+            <Spinner visible={loading} color={colors.primary} />
+        </View>
+    )
 }
+
+CountryDetailsScreen.defaultOptions = defaultProps
+CountryDetailsScreen.options = ({ country: { name } }: Props): Options => ({
+    ...waitForRenderOptions(),
+    topBar: {
+        title: {
+            text: name,
+        },
+        testID: testIDs.countryDetails.back,
+    },
+})
 
 const mapStateToProps = ({ countryDetails: { data, loading } }: AppState): PropsFromState => ({
     countryDetails: data,
@@ -84,8 +74,8 @@ const mapStateToProps = ({ countryDetails: { data, loading } }: AppState): Props
 })
 
 const mapDispatchToProps: PropsFromDispatch = {
-    getCountryDetails,
-    clearCountryDetails,
+    getCountryDetails: getCountryDetails.request,
+    resetCountryDetails: getCountryDetails.reset,
 }
 
 export default connect(
