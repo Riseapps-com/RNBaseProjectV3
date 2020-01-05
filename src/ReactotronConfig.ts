@@ -1,6 +1,4 @@
 import Reactotron from 'reactotron-react-native'
-import { reactotronRedux as reduxPlugin } from 'reactotron-redux'
-import sagaPlugin from 'reactotron-redux-saga'
 
 let _enableLog = false
 
@@ -18,8 +16,6 @@ const configureReactotron = (): any => {
         networking: true,
         errors: true,
     })
-        .use(reduxPlugin())
-        .use(sagaPlugin({}))
     Reactotron.clear()
     return reactotron
 }

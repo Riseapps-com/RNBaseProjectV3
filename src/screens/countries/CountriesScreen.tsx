@@ -1,8 +1,6 @@
 import React, { ReactElement, useEffect } from 'react'
 import { ICountry } from '../../network/data/ICountry'
 import { TRegion } from '../../network/data/TRegion'
-import { getCountriesByRegion } from '../../store/countries_by_region/actions'
-import { getAllCountries } from '../../store/all_countries/actions'
 import { StatusBar, Text, View } from 'react-native'
 import styles from './styles'
 import CountriesList from './countries_list/CountriesList'
@@ -14,68 +12,48 @@ import { COUNTRY_DETAILS_SCREEN } from '../screens'
 import { colors } from '../../assets/colors'
 import { waitForRenderOptions } from '../../utils/navigationUtils'
 import { testIDs } from '../../../e2e/testIDs'
-import { AppState } from '../../store/rootReducer'
-import { connect } from 'react-redux'
+import { inject, observer } from 'mobx-react'
+import AllCountriesStore from '../../store/allCountriesStore'
+import CountriesByRegionStore from '../../store/countriesByRegionStore'
+import { toJS } from 'mobx'
 
-type Props = OwnProps & PropsFromState & PropsFromDispatch
-
-export interface OwnProps {
+export interface Props {
+    allCountriesStore?: AllCountriesStore
+    countriesByRegionStore?: CountriesByRegionStore
     componentId?: string
     region?: TRegion
     countriesType: CountriesType
 }
 
-interface PropsFromState {
-    allCountries: ICountry[]
-    countriesByRegion: ICountry[]
-    loading: boolean
-    allCountriesError?: string
-    countriesByRegionError?: string
-}
-
-interface PropsFromDispatch {
-    getAllCountries?: typeof getAllCountries.request
-    getCountriesByRegion?: typeof getCountriesByRegion.request
-    resetAllCountries?: typeof getAllCountries.reset
-    resetCountriesByRegion?: typeof getCountriesByRegion.reset
-}
-
 const defaultProps: Props = {
     countriesType: 'all_countries',
-    allCountries: [],
-    countriesByRegion: [],
-    loading: false,
     region: 'africa',
 }
 
 export type CountriesType = 'all_countries' | 'countries_by_region'
 
 const CountriesScreen = ({
-    allCountries,
-    allCountriesError,
-    countriesByRegionError,
-    countriesByRegion,
-    loading,
     countriesType,
     region,
     componentId,
-    getAllCountries,
-    resetAllCountries,
-    resetCountriesByRegion,
-    getCountriesByRegion,
+    allCountriesStore,
+    countriesByRegionStore,
 }: Props) => {
     useEffect(() => {
-        switch (countriesType) {
-            case 'all_countries':
-                getAllCountries({})
-                break
-            case 'countries_by_region':
-                getCountriesByRegion({ region })
-                break
+        const getData = async () => {
+            switch (countriesType) {
+                case 'all_countries':
+                    await allCountriesStore.getAllCountries()
+                    break
+                case 'countries_by_region':
+                    await countriesByRegionStore.getCountriesByRegion(region)
+                    break
+            }
         }
+        getData().catch()
         return () => {
-            resetAllCountries()
-            resetCountriesByRegion()
+            allCountriesStore.reset()
+            countriesByRegionStore.reset()
         }
     }, [])
 
@@ -84,10 +62,10 @@ const CountriesScreen = ({
 
         switch (countriesType) {
             case 'all_countries':
-                error = allCountriesError
+                error = allCountriesStore.error
                 break
             case 'countries_by_region':
-                error = countriesByRegionError
+                error = countriesByRegionStore.error
                 break
         }
 
@@ -103,10 +81,10 @@ const CountriesScreen = ({
 
         switch (countriesType) {
             case 'all_countries':
-                isError = !!allCountriesError
+                isError = !!allCountriesStore.error
                 break
             case 'countries_by_region':
-                isError = !!countriesByRegionError
+                isError = !!countriesByRegionStore.error
                 break
         }
 
@@ -114,18 +92,18 @@ const CountriesScreen = ({
     }
 
     const getCountries = (): ICountry[] => {
-        let countries: ICountry[] = allCountries
+        let countries: ICountry[] = allCountriesStore.data
 
         switch (countriesType) {
             case 'all_countries':
-                countries = allCountries
+                countries = allCountriesStore.data
                 break
             case 'countries_by_region':
-                countries = countriesByRegion
+                countries = countriesByRegionStore.data
                 break
         }
 
-        return countries
+        return toJS(countries)
     }
 
     const handleCountryPress = (index: number): Promise<any> =>
@@ -146,7 +124,10 @@ const CountriesScreen = ({
             ) : (
                 <CountriesList countries={getCountries()} onCountryPress={handleCountryPress} />
             )}
-            <Spinner visible={loading} color={colors.primary} />
+            <Spinner
+                visible={allCountriesStore.loading || countriesByRegionStore.loading}
+                color={colors.primary}
+            />
         </View>
     )
 }
@@ -191,29 +172,4 @@ const getTitle = (countriesType: CountriesType, region: TRegion): string => {
     }
 }
 
-const mapStateToProps = ({
-    allCountries: { data: allCountries, loading: allCountriesLoading, error: allCountriesError },
-    countriesByRegion: {
-        data: countriesByRegion,
-        loading: countriesByRegionLoading,
-        error: countriesByRegionError,
-    },
-}: AppState): PropsFromState => ({
-    allCountries,
-    countriesByRegion,
-    loading: allCountriesLoading || countriesByRegionLoading,
-    allCountriesError,
-    countriesByRegionError,
-})
-
-const mapDispatchToProps: PropsFromDispatch = {
-    getAllCountries: getAllCountries.request,
-    resetAllCountries: getAllCountries.reset,
-    getCountriesByRegion: getCountriesByRegion.request,
-    resetCountriesByRegion: getCountriesByRegion.reset,
-}
-
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps,
-)(CountriesScreen)
+export default inject('allCountriesStore', 'countriesByRegionStore')(observer(CountriesScreen))

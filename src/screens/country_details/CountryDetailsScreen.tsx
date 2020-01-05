@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react'
 import { defaultCountry, ICountry } from '../../network/data/ICountry'
-import { getCountryDetails } from '../../store/country_details/actions'
 import styles from './styles'
 import CountryDetailsView from './components/country_details_view/CountryDetailsView'
 // @ts-ignore
@@ -10,48 +9,32 @@ import { Options } from 'react-native-navigation'
 import { waitForRenderOptions } from '../../utils/navigationUtils'
 import { colors } from '../../assets/colors'
 import { testIDs } from '../../../e2e/testIDs'
-import { connect } from 'react-redux'
-import { AppState } from '../../store/rootReducer'
+import { inject, observer } from 'mobx-react'
+import CountryDetailsStore from '../../store/countryDetailsStore'
 
-type Props = OwnProps & PropsFromState & PropsFromDispatch
-
-export interface OwnProps {
+export interface Props {
     componentId?: string
     country: ICountry
-}
-
-interface PropsFromState {
-    countryDetails: ICountry
-    loading: boolean
-}
-
-interface PropsFromDispatch {
-    getCountryDetails?: typeof getCountryDetails.request
-    resetCountryDetails?: typeof getCountryDetails.reset
+    countryDetailsStore?: CountryDetailsStore
 }
 
 const defaultProps: Props = {
     country: defaultCountry,
-    countryDetails: defaultCountry,
-    loading: false,
 }
 
-const CountryDetailsScreen = ({
-    country: { alpha2Code },
-    getCountryDetails,
-    resetCountryDetails,
-    countryDetails,
-    loading,
-}: Props) => {
+const CountryDetailsScreen = ({ country: { alpha2Code }, countryDetailsStore }: Props) => {
+    const { data, loading } = countryDetailsStore
     useEffect(() => {
-        getCountryDetails({ alpha2Code })
-        return () => resetCountryDetails()
+        const getCountryDetails = async () =>
+            await countryDetailsStore.getCountryDetails(alpha2Code)
+        getCountryDetails().catch()
+        return () => countryDetailsStore.reset()
     }, [])
 
     return (
         <View style={styles.container}>
             <StatusBar barStyle={'light-content'} />
-            <CountryDetailsView country={countryDetails} />
+            <CountryDetailsView country={data} />
             <Spinner visible={loading} color={colors.primary} />
         </View>
     )
@@ -68,17 +51,4 @@ CountryDetailsScreen.options = ({ country: { name } }: Props): Options => ({
     },
 })
 
-const mapStateToProps = ({ countryDetails: { data, loading } }: AppState): PropsFromState => ({
-    countryDetails: data,
-    loading,
-})
-
-const mapDispatchToProps: PropsFromDispatch = {
-    getCountryDetails: getCountryDetails.request,
-    resetCountryDetails: getCountryDetails.reset,
-}
-
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps,
-)(CountryDetailsScreen)
+export default inject('countryDetailsStore')(observer(CountryDetailsScreen))
