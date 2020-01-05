@@ -15,7 +15,7 @@ A small base project on React Native with the newest technologies and pure code.
 | React | [React](https://reactjs.org/) |
 | React Native | [React Native](https://facebook.github.io/react-native/) |
 | Language | [Typescript](https://www.typescriptlang.org/) |
-| Navigation | [react-navigation](https://reactnavigation.org/) |
+| Navigation | [react-native-navigation](https://github.com/wix/react-native-navigation) |
 | Network | [axios](https://github.com/axios/axios) |
 | Redux | [redux](https://redux.js.org/) |
 | Redux-Saga | [redux-saga](https://github.com/redux-saga/redux-saga) |
