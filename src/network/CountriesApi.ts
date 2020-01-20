@@ -1,7 +1,7 @@
 import { Country } from './data/CountryInterface'
 import { Region } from './data/RegionType'
-import updateIds from '../utils/updateIds'
 import { get } from './axiosBase'
+import updateIds from 'utils/updateIds'
 
 const ALL: string = 'all'
 const BY_REGION: string = 'region'

@@ -1,16 +1,16 @@
 import React, { ReactElement } from 'react'
-import { Country, defaultCountry } from '../../network/data/CountryInterface'
-import { AppState } from '../../store/rootReducer'
+import { Country, defaultCountry } from 'network/data/CountryInterface'
+import { AppState } from 'store/rootReducer'
 import { connect } from 'react-redux'
-import { clearCountryDetails, getCountryDetails } from '../../store/country_details/actions'
+import { clearCountryDetails, getCountryDetails } from 'store/country_details/actions'
 import styles from './styles'
 import CountryDetailsView from './components/country_details_view/CountryDetailsView'
 // @ts-ignore
 import Spinner from 'react-native-loading-spinner-overlay'
 import { View } from 'react-native'
 import { Options } from 'react-native-navigation'
-import { waitForRenderOptions } from '../../utils/navigationUtils'
-import { colors } from '../../assets/colors'
+import { waitForRenderOptions } from 'utils/navigationUtils'
+import { colors } from 'src/assets/colors'
 
 type Props = OwnProps & PropsFromState & PropsFromDispatch
 

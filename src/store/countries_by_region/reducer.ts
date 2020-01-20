@@ -1,7 +1,7 @@
-import { Country } from '../../network/data/CountryInterface'
+import { Country } from 'network/data/CountryInterface'
 import { Action } from '../ActionInterface'
 import { CLEAR, FAILED, SUCCESS } from '../../appConstants'
-import { Region } from '../../network/data/RegionType'
+import { Region } from 'network/data/RegionType'
 import { GET_COUNTRIES_BY_REGION } from './actions'
 import { NetworkDataState } from '../NetworkDataState'
 

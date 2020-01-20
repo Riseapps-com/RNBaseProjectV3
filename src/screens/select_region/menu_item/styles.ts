@@ -1,6 +1,6 @@
 import { ImageStyle, StyleSheet, TextStyle, ViewStyle } from 'react-native'
-import getPlatformFont from '../../../assets/fonts/getFontByPlatform'
-import { colors } from '../../../assets/colors'
+import getPlatformFont from 'src/assets/fonts/getFontByPlatform'
+import { colors } from 'src/assets/colors'
 
 export interface Style {
     container: ViewStyle

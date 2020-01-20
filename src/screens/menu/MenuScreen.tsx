@@ -3,7 +3,7 @@ import MenuItem, { MenuItemOption } from './menu_item/MenuItem'
 import { View } from 'react-native'
 import styles from './styles'
 import { Navigation, Options } from 'react-native-navigation'
-import { waitForRenderOptions } from '../../utils/navigationUtils'
+import { waitForRenderOptions } from 'utils/navigationUtils'
 import { COUNTRIES_SCREEN, SELECT_REGION_SCREEN } from '../screens'
 
 interface Props {

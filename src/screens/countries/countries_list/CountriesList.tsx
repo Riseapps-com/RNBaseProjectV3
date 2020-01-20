@@ -1,5 +1,5 @@
 import React, { ReactElement } from 'react'
-import { Country } from '../../../network/data/CountryInterface'
+import { Country } from 'network/data/CountryInterface'
 import CountriesListCell from './CountriesListCell'
 import { FlatList } from 'react-native'
 

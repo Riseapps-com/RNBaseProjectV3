@@ -1,13 +1,13 @@
 import React, { ReactElement } from 'react'
 import { connect } from 'react-redux'
-import { Country } from '../../network/data/CountryInterface'
-import { Region } from '../../network/data/RegionType'
-import { AppState } from '../../store/rootReducer'
+import { Country } from 'network/data/CountryInterface'
+import { Region } from 'network/data/RegionType'
+import { AppState } from 'store/rootReducer'
 import {
     clearCountriesByRegion,
     getCountriesByRegion,
-} from '../../store/countries_by_region/actions'
-import { clearAllCountries, getAllCountries } from '../../store/all_countries/actions'
+} from 'store/countries_by_region/actions'
+import { clearAllCountries, getAllCountries } from 'store/all_countries/actions'
 import { Text, View } from 'react-native'
 import styles from './styles'
 import CountriesList from './countries_list/CountriesList'
@@ -16,8 +16,8 @@ import Spinner from 'react-native-loading-spinner-overlay'
 import i18n from 'i18n-js'
 import { Navigation, Options } from 'react-native-navigation'
 import { COUNTRY_DETAILS_SCREEN } from '../screens'
-import { colors } from '../../assets/colors'
-import { waitForRenderOptions } from '../../utils/navigationUtils'
+import { colors } from 'src/assets/colors'
+import { waitForRenderOptions } from 'utils/navigationUtils'
 
 type Props = OwnProps & PropsFromState & PropsFromDispatch
 

@@ -2,8 +2,8 @@ import { call, put } from 'redux-saga/effects'
 import { GET_ALL_COUNTRIES } from './actions'
 import { Action } from '../ActionInterface'
 import { FAILED, SUCCESS } from '../../appConstants'
-import { Country } from '../../network/data/CountryInterface'
-import { getAllCountries as getAllCountriesAPI } from '../../network/CountriesApi'
+import { Country } from 'network/data/CountryInterface'
+import { getAllCountries as getAllCountriesAPI } from 'network/CountriesApi'
 
 export function* getAllCountries() {
     try {

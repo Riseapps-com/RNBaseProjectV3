@@ -2,9 +2,9 @@ import React, { ReactElement } from 'react'
 import MenuItem from './menu_item/MenuItem'
 import { View } from 'react-native'
 import styles from './styles'
-import { Region } from '../../network/data/RegionType'
+import { Region } from 'network/data/RegionType'
 import { Navigation, Options } from 'react-native-navigation'
-import { waitForRenderOptions } from '../../utils/navigationUtils'
+import { waitForRenderOptions } from 'utils/navigationUtils'
 import { COUNTRIES_SCREEN } from '../screens'
 
 interface Props {

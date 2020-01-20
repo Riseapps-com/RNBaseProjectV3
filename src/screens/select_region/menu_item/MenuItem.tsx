@@ -1,10 +1,10 @@
 import React, { ReactElement } from 'react'
 import { Text, TouchableOpacity, View } from 'react-native'
 import styles from './styles'
-import { Region } from '../../../network/data/RegionType'
+import { Region } from 'network/data/RegionType'
 import FastImage from 'react-native-fast-image'
 import i18n from 'i18n-js'
-import imgs from '../../../assets/imgs/imgs'
+import imgs from 'src/assets/imgs/imgs'
 
 export interface Props {
     onMenuItemPress?: (region: Region) => void

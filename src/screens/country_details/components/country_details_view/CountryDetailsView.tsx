@@ -2,7 +2,7 @@ import React, { ReactElement } from 'react'
 import { Text, View } from 'react-native'
 import styles from './styles'
 import i18n from 'i18n-js'
-import { Country, defaultCountry } from '../../../../network/data/CountryInterface'
+import { Country, defaultCountry } from 'network/data/CountryInterface'
 
 export interface Props {
     country: Country

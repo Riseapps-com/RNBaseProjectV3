@@ -1,4 +1,4 @@
-import { Country, defaultCountry } from '../../network/data/CountryInterface'
+import { Country, defaultCountry } from 'network/data/CountryInterface'
 import { Action } from '../ActionInterface'
 import { GET_COUNTRY_DETAILS } from './actions'
 import { CLEAR, FAILED, SUCCESS } from '../../appConstants'

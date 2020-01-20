@@ -2,8 +2,8 @@ import { call, put } from 'redux-saga/effects'
 import { GET_COUNTRIES_BY_REGION } from './actions'
 import { Action } from '../ActionInterface'
 import { FAILED, SUCCESS } from '../../appConstants'
-import { Country } from '../../network/data/CountryInterface'
-import { getCountriesByRegion as getCountriesByRegionAPI } from '../../network/CountriesApi'
+import { Country } from 'network/data/CountryInterface'
+import { getCountriesByRegion as getCountriesByRegionAPI } from 'network/CountriesApi'
 
 export function* getCountriesByRegion(action: Action) {
     try {

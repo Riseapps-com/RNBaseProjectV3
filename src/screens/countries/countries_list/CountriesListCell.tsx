@@ -1,9 +1,9 @@
-import { Country, defaultCountry } from '../../../network/data/CountryInterface'
+import { Country, defaultCountry } from 'network/data/CountryInterface'
 import React, { ReactElement, useState } from 'react'
 import { Text, TextStyle, TouchableOpacity, View } from 'react-native'
 import styles from './styles'
 import LinearGradient from 'react-native-linear-gradient'
-import { colors } from '../../../assets/colors'
+import { colors } from 'src/assets/colors'
 
 const selectedGradientColors: string[] = ['rgba(0, 54, 167, 0.8)', colors.primary]
 const notSelectedGradientColors: string[] = ['white', 'white']

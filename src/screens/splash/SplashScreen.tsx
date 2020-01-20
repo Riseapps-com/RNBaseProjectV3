@@ -5,9 +5,9 @@ import DeviceInfo from 'react-native-device-info'
 import i18n from 'i18n-js'
 import SplashScreenNative from 'react-native-splash-screen'
 import FastImage from 'react-native-fast-image'
-import imgs from '../../assets/imgs/imgs'
+import imgs from 'src/assets/imgs/imgs'
 import { Navigation, Options } from 'react-native-navigation'
-import { waitForRenderOptions } from '../../utils/navigationUtils'
+import { waitForRenderOptions } from 'utils/navigationUtils'
 import { MENU_SCREEN } from '../screens'
 
 const SPLASH_DURATION: number = 2000
