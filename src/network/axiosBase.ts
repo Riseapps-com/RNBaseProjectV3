@@ -17,8 +17,8 @@ instance.interceptors.response.use(
     response => response,
     async error => {
         Snackbar.show({
-            title: i18n.t('network_error'),
-            color: colors.primary,
+            text: i18n.t('network_error'),
+            textColor: colors.primary,
             duration: Snackbar.LENGTH_SHORT,
         })
         return await Promise.reject(error)

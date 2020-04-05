@@ -1,10 +1,9 @@
-package com.mentalhealth;
+package com.rnbaseprojectv3;
 
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
 import androidx.test.rule.ActivityTestRule;
 
-import com.rnbaseprojectv3.MainActivity;
 import com.wix.detox.Detox;
 
 import org.junit.Rule;

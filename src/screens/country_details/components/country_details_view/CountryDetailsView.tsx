@@ -2,7 +2,7 @@ import React, { ReactElement } from 'react'
 import { Text, View } from 'react-native'
 import styles from './styles'
 import i18n from 'i18n-js'
-import { ICountry, defaultCountry } from '../../../../network/data/ICountry'
+import { defaultCountry, ICountry } from '../../../../network/data/ICountry'
 
 export interface Props {
     country: ICountry
@@ -101,4 +101,4 @@ const getCurrencies = (country: ICountry): string => {
     return currencies
 }
 
-export default React.memo(CountryDetailsView)
+export default CountryDetailsView

@@ -2,10 +2,11 @@ import React from 'react'
 import MenuItem, { MenuItemOption } from './menu_item/MenuItem'
 import { StatusBar, View } from 'react-native'
 import styles from './styles'
-import { Navigation, Options } from 'react-native-navigation'
+import { Options } from 'react-native-navigation'
 import { waitForRenderOptions } from '../../utils/navigationUtils'
 import { COUNTRIES_SCREEN, SELECT_REGION_SCREEN } from '../screens'
 import { testIDs } from '../../../e2e/testIDs'
+import { ThrottleNavigation } from '../../utils/ThrottleNavigation'
 
 interface Props {
     componentId?: string
@@ -25,7 +26,7 @@ const MenuScreen = ({ componentId }: Props) => {
     }
 
     const startAllCountriesScreen = (): Promise<any> =>
-        Navigation.push(componentId, {
+        ThrottleNavigation.push(componentId, {
             component: {
                 name: COUNTRIES_SCREEN,
                 passProps: {
@@ -35,7 +36,7 @@ const MenuScreen = ({ componentId }: Props) => {
         }).catch()
 
     const startSelectRegionScreen = (): Promise<any> =>
-        Navigation.push(componentId, {
+        ThrottleNavigation.push(componentId, {
             component: {
                 name: SELECT_REGION_SCREEN,
             },

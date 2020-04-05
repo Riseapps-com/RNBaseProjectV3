@@ -3,10 +3,11 @@ import MenuItem from './menu_item/MenuItem'
 import { StatusBar, View } from 'react-native'
 import styles from './styles'
 import { TRegion } from '../../network/data/TRegion'
-import { Navigation, Options } from 'react-native-navigation'
+import { Options } from 'react-native-navigation'
 import { waitForRenderOptions } from '../../utils/navigationUtils'
 import { COUNTRIES_SCREEN } from '../screens'
 import { testIDs } from '../../../e2e/testIDs'
+import { ThrottleNavigation } from '../../utils/ThrottleNavigation'
 
 interface Props {
     componentId?: string
@@ -15,7 +16,7 @@ const defaultProps: Props = {}
 
 const SelectRegionScreen = ({ componentId }: Props) => {
     const handleMenuPress = (region: TRegion): Promise<any> =>
-        Navigation.push(componentId, {
+        ThrottleNavigation.push(componentId, {
             component: {
                 name: COUNTRIES_SCREEN,
                 passProps: {

@@ -19,8 +19,8 @@ const NetworkConnectionProvider = ({ children }: Props): ReactElement<any> => {
                     Snackbar.dismiss()
                 } else {
                     Snackbar.show({
-                        title: i18n.t('network_connection_error'),
-                        color: colors.primary,
+                        text: i18n.t('network_connection_error'),
+                        textColor: colors.primary,
                         duration: Snackbar.LENGTH_INDEFINITE,
                     })
                 }
