@@ -1,8 +1,9 @@
 import { action, observable } from 'mobx'
 import { defaultCountry, ICountry } from '../network/data/ICountry'
 import { CountriesAPI } from '../network/CountriesApi'
+import { IResettable } from './Resettable'
 
-export default class CountryDetailsStore {
+export default class CountryDetailsStore implements IResettable {
     @observable data: ICountry = defaultCountry
     @observable loading: boolean = false
     @observable error: string = 'Data is empty'

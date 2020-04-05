@@ -2,8 +2,9 @@ import { action, observable } from 'mobx'
 import { ICountry } from '../network/data/ICountry'
 import { TRegion } from '../network/data/TRegion'
 import { CountriesAPI } from '../network/CountriesApi'
+import { IResettable } from './Resettable'
 
-export default class CountriesByRegionStore {
+export default class CountriesByRegionStore implements IResettable{
     @observable data: ICountry[] = []
     @observable loading: boolean = false
     @observable error: string = 'Data is empty'
