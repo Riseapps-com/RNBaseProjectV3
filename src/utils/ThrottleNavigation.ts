@@ -27,15 +27,15 @@ const dismissAllModals = (mergeOptions?: Options): Promise<any> =>
 const dismissOverlay = (componentId: string): Promise<any> => Navigation.dismissOverlay(componentId)
 
 export const ThrottleNavigation = {
-    setRoot: throttle(setRoot, 1000, throttleSettings),
-    setStackRoot: throttle(setStackRoot, 1000, throttleSettings),
-    push: throttle(push, 1000, throttleSettings),
-    pop: throttle(pop, 500, throttleSettings),
-    popTo: throttle(popTo, 500, throttleSettings),
-    popToRoot: throttle(popToRoot, 500, throttleSettings),
-    showModal: throttle(showModal, 1000, throttleSettings),
-    showOverlay: throttle(showOverlay, 1000, throttleSettings),
-    dismissModal: throttle(dismissModal, 500, throttleSettings),
-    dismissAllModals: throttle(dismissAllModals, 500, throttleSettings),
-    dismissOverlay: throttle(dismissOverlay, 500, throttleSettings),
+    setRoot: throttle(setRoot, 700, throttleSettings),
+    setStackRoot: throttle(setStackRoot, 700, throttleSettings),
+    push: throttle(push, 700, throttleSettings),
+    pop: throttle(pop, 300, throttleSettings),
+    popTo: throttle(popTo, 300, throttleSettings),
+    popToRoot: throttle(popToRoot, 300, throttleSettings),
+    showModal: throttle(showModal, 700, throttleSettings),
+    showOverlay: throttle(showOverlay, 700, throttleSettings),
+    dismissModal: throttle(dismissModal, 300, throttleSettings),
+    dismissAllModals: throttle(dismissAllModals, 300, throttleSettings),
+    dismissOverlay: throttle(dismissOverlay, 300, throttleSettings),
 }
