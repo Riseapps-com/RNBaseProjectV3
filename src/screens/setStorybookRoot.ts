@@ -1,7 +1,7 @@
 import { registerScreens, STORYBOOK } from './screens'
-import { Navigation } from 'react-native-navigation'
 import SplashScreenNative from 'react-native-splash-screen'
 import { configure } from '@storybook/react-native'
+import { ThrottleNavigation } from '../utils/ThrottleNavigation'
 
 const registerStories = () => {
     configure(() => {
@@ -12,7 +12,7 @@ const registerStories = () => {
 const setStorybookRoot = (): void => {
     registerScreens()
     registerStories()
-    Navigation.setRoot({
+    ThrottleNavigation.setRoot({
         root: {
             component: {
                 name: STORYBOOK,

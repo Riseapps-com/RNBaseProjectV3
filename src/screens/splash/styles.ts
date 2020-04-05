@@ -1,4 +1,4 @@
-import { ImageStyle, Platform, StyleSheet, TextStyle, ViewStyle } from 'react-native'
+import { ImageStyle, StyleSheet, TextStyle, ViewStyle } from 'react-native'
 import getPlatformFont from '../../assets/fonts/getFontByPlatform'
 import { colors } from '../../assets/colors'
 
@@ -30,8 +30,8 @@ const styles = StyleSheet.create<Style>({
         fontSize: 16,
     },
     logo: {
-        width: Platform.OS === 'ios' ? '100%' : 200,
-        height: Platform.OS === 'ios' ? '100%' : 200,
+        width: 200,
+        height: 200,
     },
 })
 

@@ -6,9 +6,10 @@ import i18n from 'i18n-js'
 import SplashScreenNative from 'react-native-splash-screen'
 import FastImage from 'react-native-fast-image'
 import imgs from '../../assets/imgs/imgs'
-import { Navigation, Options } from 'react-native-navigation'
+import { Options } from 'react-native-navigation'
 import { waitForRenderOptions } from '../../utils/navigationUtils'
 import { MENU_SCREEN } from '../screens'
+import { ThrottleNavigation } from '../../utils/ThrottleNavigation'
 
 const SPLASH_DURATION: number = 2000
 
@@ -28,7 +29,7 @@ const SplashScreen = ({ componentId }: Props): ReactElement => {
     }
     const clearTimer = (): void => timerHandle && clearTimeout(timerHandle)
     const startMenuScreen = (): Promise<any> =>
-        Navigation.setStackRoot(componentId, {
+        ThrottleNavigation.setStackRoot(componentId, {
             component: {
                 name: MENU_SCREEN,
             },
@@ -49,7 +50,7 @@ const SplashScreen = ({ componentId }: Props): ReactElement => {
             <FastImage
                 source={imgs.logo_white}
                 style={styles.logo}
-                resizeMode={FastImage.resizeMode.center}
+                resizeMode={FastImage.resizeMode.cover}
                 onLoadEnd={handleLoadEnd}
             />
             <View style={styles.versionContainer}>

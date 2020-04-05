@@ -10,42 +10,26 @@ import { Options } from 'react-native-navigation'
 import { waitForRenderOptions } from '../../utils/navigationUtils'
 import { colors } from '../../assets/colors'
 import { testIDs } from '../../../e2e/testIDs'
-import { connect } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { AppState } from '../../store/rootReducer'
 
-type Props = OwnProps & PropsFromState & PropsFromDispatch
-
-export interface OwnProps {
+export interface Props {
     componentId?: string
     country: ICountry
 }
 
-interface PropsFromState {
-    countryDetails: ICountry
-    loading: boolean
-}
-
-interface PropsFromDispatch {
-    getCountryDetails?: typeof getCountryDetails.request
-    resetCountryDetails?: typeof getCountryDetails.reset
-}
-
 const defaultProps: Props = {
     country: defaultCountry,
-    countryDetails: defaultCountry,
-    loading: false,
 }
 
-const CountryDetailsScreen = ({
-    country: { alpha2Code },
-    getCountryDetails,
-    resetCountryDetails,
-    countryDetails,
-    loading,
-}: Props) => {
+const CountryDetailsScreen = ({ country: { alpha2Code } }: Props) => {
+    const dispatch = useDispatch()
+    const countryDetails = useSelector<AppState, ICountry>(({ countryDetails: { data } }) => data)
+    const loading = useSelector<AppState, boolean>(({ countryDetails: { loading } }) => loading)
+
     useEffect(() => {
-        getCountryDetails({ alpha2Code })
-        return () => resetCountryDetails()
+        dispatch(getCountryDetails.request({ alpha2Code }))
+        return () => dispatch(getCountryDetails.reset())
     }, [])
 
     return (
@@ -68,17 +52,4 @@ CountryDetailsScreen.options = ({ country: { name } }: Props): Options => ({
     },
 })
 
-const mapStateToProps = ({ countryDetails: { data, loading } }: AppState): PropsFromState => ({
-    countryDetails: data,
-    loading,
-})
-
-const mapDispatchToProps: PropsFromDispatch = {
-    getCountryDetails: getCountryDetails.request,
-    resetCountryDetails: getCountryDetails.reset,
-}
-
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps,
-)(CountryDetailsScreen)
+export default CountryDetailsScreen

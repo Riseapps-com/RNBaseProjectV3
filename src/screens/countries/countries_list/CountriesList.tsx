@@ -22,4 +22,4 @@ const CountriesList = ({ countries, onCountryPress }: Props): ReactElement => {
 }
 CountriesList.defaultProps = defaultProps
 
-export default React.memo(CountriesList)
+export default CountriesList

@@ -2,6 +2,8 @@ import { SPLASH_SCREEN } from './screens'
 import { Navigation } from 'react-native-navigation'
 import { colors } from '../assets/colors'
 import getPlatformFont from '../assets/fonts/getFontByPlatform'
+import { ThrottleNavigation } from '../utils/ThrottleNavigation'
+import SplashScreenNative from 'react-native-splash-screen'
 
 const setDefaultOptions = (): void => {
     Navigation.setDefaultOptions({
@@ -35,7 +37,7 @@ const setDefaultOptions = (): void => {
 }
 
 const setRoot = (): void => {
-    Navigation.setRoot({
+    ThrottleNavigation.setRoot({
         root: {
             stack: {
                 children: [
@@ -47,7 +49,9 @@ const setRoot = (): void => {
                 ],
             },
         },
-    }).catch()
+    })
+        .then(() => SplashScreenNative.hide())
+        .catch()
 }
 
 export { setDefaultOptions, setRoot }
