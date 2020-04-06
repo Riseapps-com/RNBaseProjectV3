@@ -18,7 +18,9 @@ const COUNTRY_DETAILS_SCREEN = `${SCREENS_PACKAGE}.COUNTRY_DETAILS_SCREEN`
 const screens: { id: string; screen: any }[] = [
     {
         id: STORYBOOK,
-        screen: getStorybookUI(),
+        screen: getStorybookUI({
+            asyncStorage: require('@react-native-community/async-storage').default,
+        }),
     },
     {
         id: SPLASH_SCREEN,
@@ -44,7 +46,11 @@ const screens: { id: string; screen: any }[] = [
 
 const registerScreens = (): void => {
     screens.forEach(({ id, screen }) =>
-        Navigation.registerComponent(id, () => AppProvider(screen), () => screen),
+        Navigation.registerComponent(
+            id,
+            () => AppProvider(screen),
+            () => screen,
+        ),
     )
 }
 

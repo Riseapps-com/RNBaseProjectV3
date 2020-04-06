@@ -15,6 +15,7 @@
         "test-e2e-ios": "node ./scripts/test-e2e-ios.js"
     },
     "dependencies": {
+        "@react-native-community/async-storage": "1.9.0",
         "@react-native-community/netinfo": "5.7.0",
         "axios": "0.19.2",
         "i18n-js": "3.5.1",
