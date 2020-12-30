@@ -1,4 +1,4 @@
-# RNBaseProjectV3
+# RNBaseProjectV3 (THIS PROJECT IS DEPRECATED AND ARCHIVED, PLEASE SEE THE NEW VERSION https://github.com/Riseapps-com/ReactNativeBaseProject)
 
 A small base project on React Native with the newest technologies and pure code.
 
